@@ -58,11 +58,18 @@ public class patientsServiceImpl implements patientsService {
         return result;
     }
 
+    /**
+     * 更新患者
+     * @param patientId
+     * @param patientDTO
+     * @return
+     */
     @Override
     public Result updatePatient(String patientId, PatientDTO patientDTO) {
         Result result = new Result();
-        Integer flag = patientsMapper.updatePatient(patientId,patientDTO);
-        if(flag == 0){
+        patientDTO.setPatientId(patientId);
+        Integer flag = patientsMapper.updatePatient(patientDTO);
+        if(flag == null || flag == 0){
             result.setCode(0);
             result.setMsg(MSG_UPDATE_PATIENTS_SUCCESS);
             result.setData(null);

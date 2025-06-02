@@ -19,7 +19,7 @@ public interface userService {
      * @param user
      * @return
      */
-    Result insertUser(User user);
+    Result insertUser(UserDTO user);
 
     /**
      * 删除用户
@@ -30,10 +30,11 @@ public interface userService {
 
     /**
      * 更改用户
-     * @param user
+     * @param userDTO
+     * @param id
      * @return
      */
-    Result updateById(String id,User user);
+    Result updateById(String id,UserDTO userDTO);
 
     Result getuserById(String userId);
 }
