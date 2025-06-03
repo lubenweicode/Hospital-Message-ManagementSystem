@@ -3,19 +3,15 @@ package com.Service.Impl;
 import com.Common.Result;
 import com.Entity.DTO.DepartmentDTO;
 import com.Entity.Pojo.Department;
-import com.Entity.Pojo.ProcedureResult;
 import com.Mapper.DepartmentsMapper;
 import com.Service.departmentService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.Common.ComDepartment.*;
 
-@Slf4j
 @Service
 public class departmentServiceImpI implements departmentService {
 
@@ -41,15 +37,15 @@ public class departmentServiceImpI implements departmentService {
     @Override
     public Result getDepartment(DepartmentDTO departmentDTO) {
         Result result = new Result();
-        List<DepartmentDTO> departmentList = departmentsMapper.getDepartments(departmentDTO);
-        if(departmentList != null && !departmentList.isEmpty()) {
+        List<Department> departmentList = departmentsMapper.getDepartments(departmentDTO);
+        if(departmentList != null && departmentList.size() > 0) {
             result.setCode(1);
             result.setMsg(MSG_SELECT_DEPARTMENT_SUCCESS);
-            result.setData(departmentList);
+            result.setData(departmentDTO);
         }else{
             result.setCode(0);
             result.setMsg(MSG_SELECT_DEPARTMENT_FAILED);
-            result.setData(departmentList);
+            result.setData(departmentDTO);
         }
         return result;
     }
@@ -57,9 +53,8 @@ public class departmentServiceImpI implements departmentService {
     @Override
     public Result updateDepartment(String departmentId,DepartmentDTO departmentDTO) {
         Result result = new Result();
-        departmentDTO.setDeptId(departmentId);
-        ProcedureResult procedureResult  = departmentsMapper.updateDepartment(departmentDTO);
-        if(procedureResult.getMessage().equals("更新成功")) {
+        Integer flag = departmentsMapper.updateDepartment(departmentId,departmentDTO);
+        if(flag != null) {
             result.setCode(1);
             result.setMsg(MSG_UPDATE_DEPARTMENT_SUCCESS);
             result.setData(departmentDTO);
@@ -76,12 +71,10 @@ public class departmentServiceImpI implements departmentService {
         Result result = new Result();
         Integer flag = departmentsMapper.deleteDepartment(departmentId);
         if(flag != null) {
-            log.info(MSG_DELETE_DEPARTMENT_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_DELETE_DEPARTMENT_SUCCESS);
             result.setData(departmentId);
         }else{
-            log.info(MSG_DELETE_DEPARTMENT_FAILED);
             result.setCode(0);
             result.setMsg(MSG_DELETE_DEPARTMENT_FAILED);
             result.setData(departmentId);

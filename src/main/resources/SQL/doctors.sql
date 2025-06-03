@@ -135,11 +135,11 @@ SELECT COUNT(*) INTO has_schedule_or_appointment
 FROM (
          SELECT 1
          FROM schedules s
-                  JOIN doctors d ON s.doctor_id = d.doctor_id AND d.dept_id = p_dept_id AND s.schedule_status = 1
+                  JOIN doctors d ON s.doctor_id = d.doctor_id AND d.doctor_dept_id = p_dept_id AND s.schedule_status = 1
          UNION ALL
          SELECT 1
          FROM appointments a
-                  JOIN doctors d ON a.doctor_id = d.doctor_id AND d.dept_id = p_dept_id AND a.appointment_status IN (1, 3)
+                  JOIN doctors d ON a.doctor_id = d.doctor_id AND d.doctor_dept_id = p_dept_id AND a.appointment_status IN (1, 3)
      ) AS subquery;
 IF has_schedule_or_appointment > 0 THEN
             SIGNAL SQLSTATE '01000'
@@ -173,7 +173,7 @@ ELSE
         -- 生成doctor_id
         SET new_doctor_id = UUID();
         -- 插入新医生记录
-INSERT INTO doctors (doctor_id, doctor_name, dept_id, doctor_specialty)
+INSERT INTO doctors (doctor_id, doctor_name, doctor_dept_id, doctor_specialty)
 VALUES (new_doctor_id, p_doctor_name, p_doctor_dept_id, p_doctor_specialty);
 END IF;
 END //
@@ -181,48 +181,55 @@ DELIMITER ;
 
 -- 更新医生所属科室
 DELIMITER //
-CREATE PROCEDURE UpdateDoctorInfo(
-    IN p_doctor_id varchar(50),
-    IN p_doctor_name VARCHAR(255),
-    IN p_doctor_gender int,
-    IN p_doctor_title VARCHAR(255),
-    IN p_doctor_department_name VARCHAR(255),
-    IN p_doctor_specialty VARCHAR(255),
-    IN p_doctor_status VARCHAR(255)
+CREATE PROCEDURE sp_TransferDoctor(
+    IN p_doctor_id VARCHAR(50),
+    IN p_new_dept_id VARCHAR(50)
 )
 BEGIN
-    -- 更新医生信息，使用COALESCE函数处理NULL值（若传入NULL则保持原值）
-    UPDATE doctors
-    SET
-        doctor_name = COALESCE(p_doctor_name, doctor_name),
-        doctor_gender = COALESCE(p_doctor_gender, doctor_gender),
-        doctor_title = COALESCE(p_doctor_title, doctor_title),
-        doctor_specialty = COALESCE(p_doctor_specialty,doctor_specialty),
-        doctor_status = COALESCE(p_doctor_status,doctor_status)
-    WHERE doctor_id = p_doctor_id;
+    DECLARE old_dept_id VARCHAR(20);
+    DECLARE dept_exists INT;
+    -- 检查新科室是否存在
+SELECT COUNT(*) INTO dept_exists FROM departments WHERE dept_id = p_new_dept_id;
+IF dept_exists = 0 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = '目标科室不存在';
+ELSE
+        -- 获取医生当前科室ID
+SELECT doctor_dept_id INTO old_dept_id FROM doctors WHERE doctor_id = p_doctor_id;
+-- 记录科室变更历史
+INSERT INTO doctor_dept_history (doctor_id, old_dept_id, new_dept_id)
+VALUES (p_doctor_id, old_dept_id, p_new_dept_id);
+-- 更新医生所属科室
+UPDATE doctors
+SET doctor_dept_id = p_new_dept_id
+WHERE doctor_id = p_doctor_id;
+-- 自动调整该医生未完成的排班信息
+UPDATE schedules
+SET dept_id = p_new_dept_id
+WHERE doctor_id = p_doctor_id AND schedule_status = 1;
+-- 通知相关患者（这里简单示意，实际可结合消息队列等实现）
+SELECT patient_id
+INTO OUTFILE '/tmp/patient_notification.txt'  -- 示例输出到文件，实际可按需修改
+            FIELDS TERMINATED BY ','
+            ENCLOSED BY '"'
+            LINES TERMINATED BY '\n'
+FROM appointments
+WHERE doctor_id = p_doctor_id AND appointment_status = 1;
+END IF;
 END //
 DELIMITER ;
 
--- 查询医生
+-- 更新医生状态为休假
 DELIMITER //
-create procedure getDoctors(IN p_doctor_name varchar(50),IN p_dept_id varchar(10),IN p_doctor_status varchar(50))
-begin
-    # 查询条件为'' 设置为空
-    if(p_doctor_name='')then
-        set p_doctor_name=null;
-    end if ;
-    if(p_doctor_status='')then
-        set p_doctor_status=null;
-    end if ;
-    if(p_dept_id='')then
-        set p_dept_id=null;
-    end if ;
-
-    select doctors.*,dept_name from doctors join departments on doctors.dept_id = departments.dept_id
-                            where (p_doctor_name is null or p_doctor_name=doctor_name)
-                            and (p_dept_id is null or p_dept_id=doctor_id)
-                            and (p_doctor_status is null or doctor_status = p_doctor_status) ;
-end //
+CREATE PROCEDURE sp_SetDoctorStatus(
+    IN p_doctor_id VARCHAR(50),
+    IN p_status TINYINT
+)
+BEGIN
+UPDATE doctors
+SET doctor_status = p_status
+WHERE doctor_id = p_doctor_id;
+END //
 DELIMITER ;
 
 -- 物理删除医生记录（先取消排班和预约）
@@ -244,62 +251,4 @@ ELSE
 DELETE FROM doctors WHERE doctor_id = p_doctor_id;
 END IF;
 END //
-DELIMITER ;
-
-DELIMITER $$
-CREATE PROCEDURE addDoctor(
-    IN p_doctor_name VARCHAR(50),       -- 医生姓名（必填）
-    IN p_doctor_gender TINYINT,        -- 性别（0/1，可选）
-    IN p_doctor_title VARCHAR(20),     -- 职称（可选）
-    IN p_dept_id INT,                  -- 科室ID（必填）
-    IN p_doctor_specialty VARCHAR(100),-- 专业（可选）
-    IN p_doctor_status TINYINT         -- 状态（0/1，可选，默认1）
-)
-BEGIN
-    -- 声明变量
-    DECLARE v_error_code INT DEFAULT 0;
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-            ROLLBACK;
-            SET v_error_code = 1;
-        END;
-
-    -- 开启事务
-    START TRANSACTION;
-
-    -- 校验必填参数
-    IF p_doctor_name IS NULL OR p_doctor_name = '' THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = '医生姓名不能为空';
-    END IF;
-
-    IF p_dept_id IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = '科室ID不能为空';
-    END IF;
-
-    -- 插入数据（使用COALESCE设置默认值）
-    INSERT INTO doctors (
-        doctor_name,
-        doctor_gender,
-        doctor_title,
-        dept_id,
-        doctor_specialty,
-        doctor_status
-    ) VALUES (
-                 p_doctor_name,
-                 COALESCE(p_doctor_gender, NULL),    -- 允许NULL
-                 COALESCE(p_doctor_title, '未设置'),  -- 设置默认值
-                 p_dept_id,
-                 COALESCE(p_doctor_specialty, '无'), -- 设置默认值
-                 COALESCE(p_doctor_status, 1)        -- 默认状态为1（正常出诊）
-             );
-
-    -- 提交事务
-    COMMIT;
-
-    -- 返回结果
-    SELECT
-        IF(v_error_code = 0, '插入成功', '插入失败') AS result;
-END$$
 DELIMITER ;

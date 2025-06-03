@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 @Slf4j
 public class UsersController {
 
@@ -32,7 +32,7 @@ public class UsersController {
      * @return
      */
     @PostMapping
-    public Result insert(@RequestBody UserDTO user) {
+    public Result insert(@RequestBody User user) {
         log.info("添加用户,用户信息是:{}", user);
         return userServiceImpl.insertUser(user);
     }
@@ -53,13 +53,13 @@ public class UsersController {
     /**
      * 根据ID更改用户
      * @param userId
-     * @param userDTO
+     * @param user
      * @return
      */
     @PutMapping("/{userId}")
-    public Result updateById(@PathVariable String userId,@RequestBody UserDTO userDTO) {
-        log.info("修改ID:{} 用户信息,更新为:{}",userId,userDTO);
-        return userServiceImpl.updateById(userId,userDTO);
+    public Result updateById(@PathVariable String userId,@RequestBody User user) {
+        log.info("修改ID:{} 用户信息,更新为:{}",userId,user);
+        return userServiceImpl.updateById(userId,user);
     }
 
     /**

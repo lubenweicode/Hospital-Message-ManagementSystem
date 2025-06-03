@@ -2,12 +2,10 @@ package com.Mapper;
 
 import com.Entity.DTO.DepartmentDTO;
 import com.Entity.Pojo.Department;
-import com.Entity.Pojo.ProcedureResult;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface DepartmentsMapper {
@@ -17,7 +15,7 @@ public interface DepartmentsMapper {
      * @param departmentDTO
      * @return
      */
-    public List<DepartmentDTO> getDepartments(DepartmentDTO departmentDTO);
+    public List<Department> getDepartments(DepartmentDTO departmentDTO);
 
     /**
      * 添加部门
@@ -28,17 +26,18 @@ public interface DepartmentsMapper {
 
     /**
      * 更新部门
+     * @param departmentId
      * @param departmentDTO
      * @return
      */
-    public ProcedureResult updateDepartment(DepartmentDTO departmentDTO);
+    public Integer updateDepartment(String departmentId, DepartmentDTO departmentDTO);
 
     /**
      * 删除部门
-     * @param deptId
+     * @param departmentId
      * @return
      */
-    public int deleteDepartment(String deptId);
+    public Integer deleteDepartment(String departmentId);
 
     /**
      * 根据Id查询部门

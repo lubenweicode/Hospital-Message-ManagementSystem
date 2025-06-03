@@ -3,7 +3,6 @@ package com.Mapper;
 import com.Entity.DTO.PatientDTO;
 import com.Entity.Pojo.Patient;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -12,11 +11,12 @@ import java.util.List;
 public interface PatientsMapper {
 
 
+    @Select("select * from patients")
     public List<Patient> getPatients(PatientDTO patientDTO);
 
     public void addPatient(PatientDTO patientDTO);
 
-    public Integer updatePatient(PatientDTO patientDTO);
+    public Integer updatePatient(String patientId, PatientDTO patientDTO);
 
     public Integer deletePatient(String patientId);
 

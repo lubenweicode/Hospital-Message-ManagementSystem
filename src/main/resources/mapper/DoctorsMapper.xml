@@ -3,26 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Mapper.DoctorsMapper">
 
-    <select id="addDoctor" statementType="CALLABLE">
-        {call addDoctor(
-                #{doctorName, mode=IN, jdbcType=VARCHAR},
-                #{doctorGender, mode=IN, jdbcType=TINYINT},
-                #{doctorTitle, mode=IN, jdbcType=VARCHAR},
-                #{deptId, mode=IN, jdbcType=INTEGER},
-                #{doctorSpecialty, mode=IN, jdbcType=VARCHAR},
-                #{doctorStatus, mode=IN, jdbcType=TINYINT}
-              )}
-    </select>
-
-    <update id="updateDoctor">
-        {CALL updateDoctor(#{doctorId},#{doctorName},#{doctorGender},#{doctorTitle},#{deptId},#{doctorSpecialty},#{doctorStatus})}
-    </update>
-
-    <delete id="deleteDoctor">
-        {CALL deleteDoctor(#{doctorId})}
-    </delete>
-    <!-- 根据医生名称、所属科室、职称查询医生信息 -->
-    <select id="getDoctors" resultType="com.Entity.VO.DoctorVO">
-        CALL getDoctors(#{doctorName},#{deptId},#{doctorTitle})
-    </select>
+    <insert id="addDoctor"></insert>
+    <update id="updateDoctor"></update>
+    <delete id="deleteDoctor"></delete>
+    <select id="getDoctors" resultType="com.Entity.Pojo.Doctor"></select>
 </mapper>

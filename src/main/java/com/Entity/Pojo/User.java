@@ -21,8 +21,8 @@ public class User {
     @Column(name = "user_id", length = 50)
     private String userId; // 用户ID（UUID）
 
-    @Column(name = "user_displayName", length = 36)
-    private String userDisplayName; // 用户名
+    @Column(name = "user_displayname", length = 36)
+    private String userDisplayname; // 用户名
 
     @Column(name = "user_username", length = 50, unique = true, nullable = false)
     private String userUsername; // 登录账户（唯一）
@@ -31,7 +31,7 @@ public class User {
     private String userPassword; // 加密密码
 
     @Column(name = "user_private", nullable = true)
-    private Integer userPrivate=1; // 用户权限（1: 普通用户，2: 管理员）
+    private Integer userPrivate; // 用户权限（1: 普通用户，2: 管理员）
 
     @Column(name = "user_phone", length = 20)
     private String userPhone; // 联系电话

@@ -19,17 +19,20 @@ public interface UsersMapper {
      * 根据查询用户 启用和禁用用户权限
      * 只有管理员才能选择禁用和启用其他用户
      * TODO 被禁用的用户无法登录系统
-     * @param userDTO
+     * @param user
      * @return
      */
-    Integer updateUser(@Param("userId") String userId, @Param("user") UserDTO userDTO);
+    int updateUser(@Param("id") String id, @Param("user") User user);
 
     /**
      * 添加用户
      * @param user
      * @return
      */
-    @Insert("INSERT INTO users (user_displayName,user_username,user_password, user_private) VALUES (#{userDisplayName},#{userUsername},#{userPassword},#{userPrivate})")
+    @Insert("INSERT INTO users (user_displayname, user_username, user_password,user_phone, user_private, user_status" +
+            ") " +
+            "VALUES (#{userDisplayname}, #{userUsername}, #{userPassword},#{userPhone}, #{userPrivate}, " +
+            "#{userStatus})")
     int insertUser(User user);
 
     /**
@@ -42,10 +45,4 @@ public interface UsersMapper {
 
     @Select("select * from users where user_id=#{userId}")
     User getuserById(String userId);
-
-    @Select("select * from users where user_displayName=#{userDisplayName}")
-    String getUserByDisplayName(String userDisplayName);
-
-    @Select("select * from users where user_username=#{userUsername}")
-    Integer getUserByUsername(String userUsername);
 }

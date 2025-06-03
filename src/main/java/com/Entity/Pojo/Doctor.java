@@ -21,8 +21,8 @@ public class Doctor {
     @Column(name = "doctor_title", length = 50)
     private String doctorTitle; // 职称（如主任医师）
 
-    @Column(name = "dept_id", length = 20)
-    private String deptId; // 所属科室ID（关联科室表）
+    @Column(name = "doctor_dept_id", length = 20)
+    private String doctorDeptId; // 所属科室ID（关联科室表）
 
     @Column(name = "doctor_specialty", length = 100)
     private String doctorSpecialty; // 擅长领域
@@ -35,6 +35,6 @@ public class Doctor {
 
     // 关联科室（可选，根据实际需求添加）
     @ManyToOne
-    @JoinColumn(name = "dept_id", insertable = false, updatable = false)
+    @JoinColumn(name = "doctor_dept_id", insertable = false, updatable = false)
     private Department department;
 }

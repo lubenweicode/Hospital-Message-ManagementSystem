@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class UserVO {
 
     private String userId;// 用户ID
-    private String userDisplayName;// 用户名
+    private String userDisplayname;// 用户名
     private Integer userPrivate;// 用户权限 1.医生 2.护士 3.管理员
     private String userPhone;// 用户电话
     private Integer userStatus;// 用户状态 0.禁用 1.启用

@@ -8,33 +8,35 @@
         SELECT * FROM users
         <where>
             <if test="userDisplayName != null and userDisplayName != ''">
-                AND user_displayName LIKE CONCAT('%', #{userDisplayName}, '%')
+                AND user_displayname LIKE CONCAT('%', #{userName}, '%')
             </if>
-            <if test="userPrivate != null and userPrivate !='' ">
-                AND user_private = #{userPrivate}
+            <if test="userStatus != null">
+                AND user_status = #{userStatus}
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                AND user_phone LIKE CONCAT('%', #{userPhone}, '%')
             </if>
         </where>
         ORDER BY create_time DESC
     </select>
 
-    <!--更新用户-->
-    <update id="updateUser" >
+    <update id="updateUser">
         update users
         <set>
-            <if test="user.userDisplayName != null">
-                user_displayName = #{user.userDisplayName},
-            </if>
-            <if test="user.userUsername != null">
-                user_username = #{user.userUsername},
-            </if>
-            <if test="user.userPassword != null">
-                user_password = #{user.userPassword},
+            <if test="user.displayName != null">
+                user_displayname = #{user.displayName},
             </if>
             <if test="user.userPrivate != null">
                 user_private = #{user.userPrivate},
             </if>
+            <if test="user.userPhone != null">
+                user_phone = #{user.userPhone},
+            </if>
+            <if test="user.userStatus != null">
+                user_status = #{user.userStatus}
+            </if>
         </set>
-        where user_id = #{userId}
+        where user_id = #{id}
     </update>
 
 </mapper>

@@ -5,7 +5,7 @@
 
     <!-- 添加患者 -->
     <insert id="addPatient" parameterType="com.Entity.DTO.PatientDTO" statementType="CALLABLE">
-        {call addPatient(
+        {call AddPatient(
         #{patientName},
         #{patientGender},
         #{patientBirth},
@@ -18,30 +18,10 @@
         )}
     </insert>
 
-    <select id="updatePatient" statementType="CALLABLE">
-        {call updatePatient(
-                #{patientId, mode=IN, jdbcType=INTEGER},
-                #{patientName, mode=IN, jdbcType=VARCHAR},
-                #{patientGender, mode=IN, jdbcType=TINYINT},
-                #{patientAge, mode=IN, jdbcType=INTEGER},
-                #{patientBirth, mode=IN, jdbcType=DATE},
-                #{patientAddress, mode=IN, jdbcType=VARCHAR},
-                #{patientPhone, mode=IN, jdbcType=VARCHAR},
-                #{patientIdCard, mode=IN, jdbcType=VARCHAR},
-                #{patientCase, mode=IN, jdbcType=VARCHAR},
-                #{patientAllergy, mode=IN, jdbcType=VARCHAR},
-                #{patientHistory, mode=IN, jdbcType=VARCHAR},
-                #{patientCasedetail, mode=IN, jdbcType=VARCHAR}
-              )}
-    </select>
+    <update id="updatePatient"></update>
 
-    <delete id="deletePatient">
-        call deletePatient(#{patientId})
-    </delete>
+    <delete id="deletePatient"></delete>
 
-    <select id="getPatients" statementType="CALLABLE" resultType="com.Entity.DTO.PatientDTO">
-        call getPatient(#{patientName},#{patientPhone},#{patientCase})
-    </select>
-
+<!--    <select id="getPatients" resultType="com.Entity.Pojo.Patient"></select>-->
 
 </mapper>

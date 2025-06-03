@@ -2,23 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Mapper.DepartmentsMapper">
-    <insert id="addDepartment">
-        call addDepartment(#{deptName},#{deptHead},#{deptStatus},#{deptDesc})
-    </insert>
-
-    <select id="updateDepartment" parameterType="map" resultType="com.Entity.Pojo.ProcedureResult">
-        call updateDepartment(#{deptId},#{deptName},#{deptHead},#{deptStatus},#{deptDesc})
-    </select>
-
-
-
-    <select id="deleteDepartment" parameterType="String" statementType="CALLABLE">
-        {call deleteDepartments(#{deptId, mode=IN, jdbcType=VARCHAR})}
-    </select>
-
-    <select id="getDepartments" resultType="com.Entity.DTO.DepartmentDTO" statementType="CALLABLE">
-        CALL getDepartments(#{deptName,mode=IN,jdbcType=VARCHAR},#{deptStatus,mode=IN,jdbcType=VARCHAR})
-    </select>
-
-
+    <insert id="addDepartment"></insert>
+    <update id="updateDepartment"></update>
+    <delete id="deleteDepartment"></delete>
+    <select id="getDepartments" resultType="com.Entity.Pojo.Department"></select>
 </mapper>

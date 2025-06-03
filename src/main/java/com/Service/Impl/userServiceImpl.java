@@ -1,6 +1,5 @@
 package com.Service.Impl;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.Common.Result;
 import com.Mapper.LoginMapper;
 import com.Mapper.UsersMapper;
@@ -9,7 +8,6 @@ import com.Entity.Pojo.User;
 import com.Entity.VO.UserVO;
 import com.Service.userService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,14 +68,14 @@ public class userServiceImpl implements userService {
 
     /**
      * 添加用户
-     * @param userDTO
+     * @param user
      * @return
      */
     @Override
-    public Result insertUser(UserDTO userDTO) {
+    public Result insertUser(User user) {
         Result result = new Result();
-        String username = userDTO.getUserUsername();
-        String password = userDTO.getUserPassword();
+        String username = user.getUserUsername();
+        String password = user.getUserPassword();
         // 这里需要对添加的用户的账户和密码进行合法性匹配
         if(!validateUsername(username)){
             log.info("账户号格式不正确,username:{}", username);
@@ -99,27 +97,26 @@ public class userServiceImpl implements userService {
         password = md5Encrypt(password);
 
         // 4.需要检查数据库是否有重复用户
-        User user1 = loginMapper.getUserByUsername(username);
-        if(user1 != null){
+        User userDTO = loginMapper.getUserByUsername(username);
+        if(userDTO != null){
             // 5.存在,注册失败
             log.info("该用户名已经有人注册,username:{}", username);
             result.setCode(1);
             result.setMsg(MSG_REGISTER_EXISTS);
             return result;
         }
-        User user = new User();
+
         user.setUserUsername(username);
         user.setUserPassword(password);
 
-        BeanUtils.copyProperties(userDTO, user);
-        int flag1 = userMapper.insertUser(user);
+        Integer flag1 = userMapper.insertUser(user);
         if(flag1 > 0){
             log.info("添加用户成功,username:{}", username);
             result.setCode(1);
             result.setMsg(MSG_INSERT_SUCCESS);// 添加成功
         }else{
             log.info("添加用户失败,username:{}", username);
-            result.setCode(0);
+            result.setCode(1);
             result.setMsg(MSG_INSERT_FAILED);// 添加失败
         }
         return result;
@@ -127,53 +124,13 @@ public class userServiceImpl implements userService {
 
     /**
      * 修改用户
-     * 账户名和用户名不可重名
-     * @param userDTO
-     * @param id
+     * @param user
      * @return
      */
     @Override
-    public Result updateById(String id,UserDTO userDTO) {
+    public Result updateById(String id,User user) {
         Result result = new Result();
-
-        User originalUser = userMapper.getuserById(id);
-
-        // 检验自身是否发生过变化,有则检验是否重名
-        if(!originalUser.getUserDisplayName().equals(userDTO.getUserDisplayName())){
-            String flag1 = userMapper.getUserByDisplayName(userDTO.getUserDisplayName());
-            if(flag1.isEmpty()){
-                // 没有重名
-                log.info("没有重复账户名:{}", userDTO.getUserDisplayName());
-            }else{
-                result.setCode(0);
-                result.setMsg(MSG_UPDATE_FAILED);
-                return result;
-            }
-        }
-
-
-        String username = userDTO.getUserUsername();
-        username = md5Encrypt(username);
-
-        // 检验自身是否发生过变化,有则检验是否重名
-        if(!originalUser.getUserUsername().equals(username)){
-            Integer flag2 = userMapper.getUserByUsername(username);
-            if(flag2 == null || flag2 == 0){
-                // 没有重复用户号
-                log.info("没有重复用户号:{}", userDTO.getUserUsername());
-            }else{
-                result.setCode(0);
-                result.setMsg(MSG_UPDATE_FAILED);
-                return result;
-            }
-        }
-
-
-        String password = md5Encrypt(userDTO.getUserPassword());
-        userDTO.setUserUsername(username);
-        userDTO.setUserPassword(password);
-
-        Integer flag = userMapper.updateUser(id,userDTO);
+        Integer flag = userMapper.updateUser(id,user);
         if(flag > 0){
             log.info("修改用户成功,id:{}", id);
             result.setCode(1);
