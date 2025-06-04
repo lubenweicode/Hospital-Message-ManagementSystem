@@ -15,8 +15,14 @@ public class MedicalRecord {
     @Column(name = "patient_id", length = 50)
     private String patientId; // 患者ID（关联患者表）
 
+    @Column(name = "patient_name", length = 50)
+    private String patientName;// 患者名称
+
     @Column(name = "doctor_id", length = 50)
     private String doctorId; // 医生ID（关联医生表）
+
+    @Column(name = "doctor_name",length=50)
+    private String doctorName;
 
     @Column(name = "record_date")
     private LocalDateTime recordDate; // 记录日期
