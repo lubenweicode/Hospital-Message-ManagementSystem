@@ -1,6 +1,8 @@
 package com.Entity.DTO;
 
 import lombok.Data;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -10,11 +12,14 @@ public class MedicalRecordDTO {
     private String patientName; // 患者姓名（冗余字段）
     private String doctorId; // 医生ID
     private String doctorName; // 医生姓名（冗余字段）
-    private LocalDateTime recordDate; // 记录日期
+    private LocalDate recordDate; // 记录日期
     private String symptoms; // 症状描述
     private String diagnosis; // 诊断结果
     private String treatmentPlan; // 治疗方案
     private String medications; // 用药记录（JSON格式）
     private Integer recordStatus; // 病历状态（0: 草稿，1: 已提交，2: 已审核）
     private LocalDateTime createTime; // 创建时间
+    private LocalDateTime updateTime; // 更新时间
+    private LocalDateTime startTime; // 开始时间
+    private LocalDateTime endTime; // 结束时间
 }

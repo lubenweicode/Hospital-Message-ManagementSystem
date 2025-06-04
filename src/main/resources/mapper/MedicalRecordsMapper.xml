@@ -3,9 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Mapper.MedicalRecordsMapper">
 
-    <insert id="addMedicalRecord"></insert>
-    <update id="updateMedicalRecord"></update>
-    <delete id="deleteMedicalRecord"></delete>
-    <select id="getMedicalRecord" resultType="com.Entity.Pojo.MedicalRecord"></select>
+    <insert id="addMedicalRecord">
+        call addMedicalRecords(#{patientId},#{patientName},#{doctorId},#{doctorName},#{recordDate},#{symptoms},#{diagnosis},#{medications},#{treatmentPlan},#{recordStatus})
+    </insert>
+
+    <update id="updateMedicalRecord">
+        call updateMedicalRecords(#{patientId},#{patientName},#{doctorId},#{doctorName},#{recordDate},#{symptoms},#{diagnosis},#{medications},#{treatmentPlan},#{recordStatus})
+    </update>
+
+    <delete id="deleteMedicalRecord">
+        call deleteMedicalRecord(#{medicineRecordId})
+    </delete>
+
+    <select id="getMedicalRecords" resultType="com.Entity.DTO.MedicalRecordDTO">
+        call getMedicalRecords(#{patientName},#{doctorName},#{recordStatus},#{startTime},#{endTime})
+    </select>
 
 </mapper>
