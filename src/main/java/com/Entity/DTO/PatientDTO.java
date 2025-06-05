@@ -12,12 +12,12 @@ public class PatientDTO {
     private Integer patientAge; // 年龄
     private LocalDate patientBirth; // 出生日期
     private String patientAddress; // 地址
-    private String patientPhone; // 联系电话
+    private String patientPhone=null; // 联系电话
     private String patientIdCard; // 身份证号
     private String patientAllergy; // 过敏史
     private String patientHistory; // 既往病史
     private String patientCase; // 病例类型（如内科、外科）
-    private String patientCasedetail; // 病例详情
+    private String patientCasedetail=null; // 病例详情
     private LocalDateTime createTime; // 创建时间
     private LocalDateTime updateTime; // 更新时间
 }
