@@ -3,6 +3,7 @@ package com.Service.Impl;
 import com.Common.Result;
 import com.Entity.DTO.DoctorDTO;
 import com.Entity.Pojo.Doctor;
+import com.Entity.VO.DoctorVO;
 import com.Mapper.DoctorsMapper;
 import com.Service.doctorsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,15 @@ public class doctorsServiceImpl implements doctorsService {
     @Override
     public Result getDoctors(DoctorDTO doctorDTO) {
         Result result = new Result();
-        List<Doctor> doctorsList = doctorsMapper.getDoctors(doctorDTO);
+        List<DoctorVO> doctorsList = doctorsMapper.getDoctors(doctorDTO);
         if(doctorsList != null||doctorsList.size()>0) {
             result.setCode(1);
             result.setMsg(MSG_OPERATION_SUCCESS);
-            result.setData(doctorDTO);
+            result.setData(doctorsList);
         }else{
             result.setCode(0);
             result.setMsg(MSG_OPERATION_FAILED);
-            result.setData(doctorDTO);
+            result.setData(doctorsList);
         }
         return result;
     }
@@ -72,7 +73,7 @@ public class doctorsServiceImpl implements doctorsService {
     @Override
     public Result updateDoctor(String doctorId, DoctorDTO doctorDTO) {
         Result result = new Result();
-        Integer flag = doctorsMapper.updateDoctor(doctorId,doctorDTO);
+        Integer flag = doctorsMapper.updateDoctor(doctorDTO);
         if(flag == 1) {
             result.setCode(1);
             result.setMsg(MSG_INSERT_DOCTORS_SUCCESS );
@@ -93,7 +94,7 @@ public class doctorsServiceImpl implements doctorsService {
     @Override
     public Result getDoctorById(String doctorId) {
         Result result = new Result();
-        Doctor doctor = doctorsMapper.getDoctorById(doctorId);
+        DoctorVO doctor = doctorsMapper.getDoctorById(doctorId);
         if(doctor != null) {
             result.setCode(1);
             result.setMsg(MSG_OPERATION_SUCCESS);
@@ -101,7 +102,7 @@ public class doctorsServiceImpl implements doctorsService {
         }else{
             result.setCode(0);
             result.setMsg(MSG_OPERATION_FAILED);
-            result.setData(doctorId);
+            result.setData(doctor);
         }
         return result;
     }

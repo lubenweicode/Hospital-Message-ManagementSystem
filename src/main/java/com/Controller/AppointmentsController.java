@@ -44,7 +44,7 @@ public class AppointmentsController {
      * @param appointmentDTO
      * @return
      */
-    @PostMapping("/{appointmentId}")
+    @PutMapping("/{appointmentId}")
     public Result updateAppointment(@PathVariable String appointmentId, @RequestBody AppointmentDTO appointmentDTO) {
         log.info("根据Id：{},更新预约:{}",appointmentId,appointmentDTO);
         return appointmentServiceImpl.updateAppointment(appointmentId, appointmentDTO);
