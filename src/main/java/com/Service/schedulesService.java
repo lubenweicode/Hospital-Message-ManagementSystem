@@ -41,4 +41,11 @@ public interface schedulesService {
      * @return
      */
     Result getscheduleById(String scheduleId);
+
+    /**
+     * 根据医生查询排班
+     * @param doctorId
+     * @return
+     */
+    Result getscheduleByDoctorId(String doctorId);
 }

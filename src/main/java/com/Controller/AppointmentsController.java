@@ -35,7 +35,7 @@ public class AppointmentsController {
     @PostMapping
     public Result addAppointment(@RequestBody AppointmentDTO appointmentDTO) {
         log.info("添加预约{}", appointmentDTO);
-        return appointmentServiceImpl.getAppointments(appointmentDTO);
+        return appointmentServiceImpl.insertAppointment(appointmentDTO);
     }
 
     /**
@@ -66,7 +66,7 @@ public class AppointmentsController {
      * @param appointmentId
      * @return
      */
-    @GetMapping("{apoointmentId}")
+    @GetMapping("{appointmentId}")
     public Result getAppointment(@PathVariable String appointmentId) {
         log.info("根据Id:{} 查询预约", appointmentId);
         return appointmentServiceImpl.getAppointmentById(appointmentId);

@@ -18,6 +18,9 @@ public class ComUserAuth {
     public static final String MSG_INSERT_SUCCESS = "添加用户成功";
     public static final String MSG_INSERT_FAILED = "添加用户失败";
 
+    public static final String MSG_SELECT_USER_SUCCESS = "查询用户成功";
+    public static final String MSG_SELECT_USER_FAILED = "查询用户失败";
+
     public static final String MSG_UPDATE_SUCCESS = "更新用户成功";
     public static final String MSG_UPDATE_FAILED = "更新用户失败";
 

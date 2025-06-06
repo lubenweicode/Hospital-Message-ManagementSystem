@@ -40,14 +40,14 @@ public class loginServiceImpl implements loginService {
         // 账户和密码认证
         // 1.用户账户名认证
         if(!validateUsername(username)){
-            log.info("账户号格式不正确,username:{}", username);
+            log.info(MSG_ACCOUNT_NUMBER_INVALID);
             result.setCode(1);
             result.setMsg(MSG_ACCOUNT_NUMBER_INVALID);
             return result;
         }
         // 2.用户密码验证
         if(!validatePassword(password)){
-            log.info("密码格式不正确,password:{}", password);
+            log.info(MSG_PASSWORD_NUMBER_INVALID);
             result.setCode(1);
             result.setMsg(MSG_PASSWORD_NUMBER_INVALID);
             return result;
@@ -60,13 +60,13 @@ public class loginServiceImpl implements loginService {
             String token = JwtUtils.generateToken(username);
             Map<String,Object> map = new HashMap<>();
             map.put("token",token);
-            log.info("登录成功,username:{},password:{} Token:{}", username, password,token);
+            log.info(MSG_LOAD_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_LOAD_SUCCESS);
             result.setData(map);
             return result;
         }else{
-            log.info("账户或密码不正确,username:{},password:{}", username, password);
+            log.info(MSG_LOAD_FAILED);
             result.setCode(0);
             result.setMsg(MSG_LOAD_FAILED);
             return result;
@@ -85,14 +85,14 @@ public class loginServiceImpl implements loginService {
         // 账户和密码认证
         // 1.用户账户名认证
         if(!validateUsername(username)){
-            log.info("账户号格式不正确,username:{}", username);
+            log.info(MSG_ACCOUNT_NUMBER_INVALID);
             result.setCode(0);
             result.setMsg(MSG_ACCOUNT_NUMBER_INVALID);
             return result;
         }
         // 2.用户密码验证
         if(!validatePassword(password)){
-            log.info("密码格式不正确,password:{}", password);
+            log.info(MSG_PASSWORD_NUMBER_INVALID);
             result.setCode(0);
             result.setMsg(MSG_PASSWORD_NUMBER_INVALID);
             return result;
@@ -107,7 +107,7 @@ public class loginServiceImpl implements loginService {
         User userDTO = loginMapper.getUserByUsername(username);
         if(userDTO != null){
             // 5.存在,注册失败
-            log.info("该用户名已经有人注册,username:{}", username);
+            log.info(MSG_REGISTER_EXISTS);
             result.setCode(0);
             result.setMsg(MSG_REGISTER_EXISTS);
             return result;
@@ -121,9 +121,11 @@ public class loginServiceImpl implements loginService {
         Integer f=userMapper.insertUser(user);
 
         if(f != null){
+            log.info(MSG_REGISTER_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_REGISTER_SUCCESS);
         }else{
+            log.info(MSG_REGISTER_FAILED);
             result.setCode(0);
             result.setMsg(MSG_REGISTER_FAILED);
         }

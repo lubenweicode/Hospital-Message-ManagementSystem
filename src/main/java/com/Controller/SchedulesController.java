@@ -70,4 +70,10 @@ public class SchedulesController {
         log.info("根据Id:{},查询排班", scheduleId);
         return schedulesServiceImpl.getscheduleById(scheduleId);
     }
+
+    @GetMapping("/doctor/{doctorId}")
+    public Result getDoctor(@PathVariable String doctorId) {
+        log.info("根据医生Id:{},查询排班", doctorId);
+        return schedulesServiceImpl.getscheduleByDoctorId(doctorId);
+    }
 }

@@ -9,4 +9,7 @@ public class ComMedicine {
 
     public static final String MSG_DELETE_MEDICINE_SUCCESS = "删除药品成功";
     public static final String MSG_DELETE_MEDICINE_FAILED = "删除药品失败";
+
+    public static final String MSG_SELECT_MEDICINE_SUCCESS = "查询药品成功";
+    public static final String MSG_SELECT_MEDICINE_FAILED = "查询药品失败";
 }

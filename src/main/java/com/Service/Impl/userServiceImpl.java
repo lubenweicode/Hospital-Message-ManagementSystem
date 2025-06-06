@@ -38,11 +38,11 @@ public class userServiceImpl implements userService {
         Result result = new Result();
         Integer flag = userMapper.deleteUser(id);
         if(flag > 0){
-            log.info("删除成功,id:{}", id);
+            log.info(MSG_DELETE_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_DELETE_SUCCESS);
         }else{
-            log.info("删除失败,id:{}", id);
+            log.info(MSG_DELETE_FAILED);
             result.setCode(0);
             result.setMsg(MSG_DELETE_FAILED);
         }
@@ -59,11 +59,13 @@ public class userServiceImpl implements userService {
         List<UserVO> userList = userMapper.getUsers(userDTO);
         result.setData(userList);
         if(userList != null && !userList.isEmpty()){
-            log.info("查询成功,userDTO:{}", userDTO);
-            result.setMsg(MSG_OPERATION_SUCCESS);// 查询成功
+            log.info(MSG_SELECT_USER_SUCCESS);
+            result.setCode(1);
+            result.setMsg(MSG_SELECT_USER_SUCCESS);// 查询成功
         }else{
-            log.info("查询为空,userDTO:{}", userDTO);
-            result.setMsg(MSG_NOT_FOUND);// 查询为空
+            log.info(MSG_SELECT_USER_FAILED);
+            result.setCode(0);
+            result.setMsg(MSG_SELECT_USER_FAILED);// 查询为空
         }
         return result;
     }
@@ -80,15 +82,15 @@ public class userServiceImpl implements userService {
         String password = userDTO.getUserPassword();
         // 这里需要对添加的用户的账户和密码进行合法性匹配
         if(!validateUsername(username)){
-            log.info("账户号格式不正确,username:{}", username);
-            result.setCode(1);
+            log.info(MSG_ACCOUNT_NUMBER_INVALID);
+            result.setCode(0);
             result.setMsg(MSG_ACCOUNT_NUMBER_INVALID);
             return result;
         }
         // 2.用户密码验证
         if(!validatePassword(password)){
-            log.info("密码格式不正确,password:{}", password);
-            result.setCode(1);
+            log.info(MSG_PASSWORD_NUMBER_INVALID);
+            result.setCode(0);
             result.setMsg(MSG_ACCOUNT_NUMBER_INVALID);
             return result;
         }
@@ -102,7 +104,7 @@ public class userServiceImpl implements userService {
         User user1 = loginMapper.getUserByUsername(username);
         if(user1 != null){
             // 5.存在,注册失败
-            log.info("该用户名已经有人注册,username:{}", username);
+            log.info(MSG_REGISTER_EXISTS);
             result.setCode(1);
             result.setMsg(MSG_REGISTER_EXISTS);
             return result;
@@ -114,11 +116,11 @@ public class userServiceImpl implements userService {
         BeanUtils.copyProperties(userDTO, user);
         int flag1 = userMapper.insertUser(user);
         if(flag1 > 0){
-            log.info("添加用户成功,username:{}", username);
+            log.info(MSG_INSERT_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_INSERT_SUCCESS);// 添加成功
         }else{
-            log.info("添加用户失败,username:{}", username);
+            log.info(MSG_INSERT_FAILED);
             result.setCode(0);
             result.setMsg(MSG_INSERT_FAILED);// 添加失败
         }
@@ -175,11 +177,11 @@ public class userServiceImpl implements userService {
 
         Integer flag = userMapper.updateUser(id,userDTO);
         if(flag > 0){
-            log.info("修改用户成功,id:{}", id);
+            log.info(MSG_UPDATE_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_UPDATE_SUCCESS);
         }else{
-            log.info("修改用户失败,id:{}", id);
+            log.info(MSG_UPDATE_FAILED);
             result.setCode(0);
             result.setMsg(MSG_UPDATE_FAILED);
         }
@@ -196,12 +198,14 @@ public class userServiceImpl implements userService {
         Result result = new Result();
         User user = userMapper.getuserById(userId);
         if(user != null){
+            log.info(MSG_SELECT_USER_SUCCESS);
             result.setCode(1);
-            result.setMsg(MSG_OPERATION_SUCCESS);
+            result.setMsg(MSG_SELECT_USER_SUCCESS);
             result.setData(user);
         }else{
+            log.info(MSG_SELECT_USER_FAILED);
             result.setCode(0);
-            result.setMsg(MSG_OPERATION_FAILED);
+            result.setMsg(MSG_SELECT_USER_FAILED);
             result.setData(user);
         }
         return result;

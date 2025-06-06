@@ -13,7 +13,9 @@ public class MedicineDTO {
     private String medicineCategory; // 类别（处方药/非处方药）
     private String manufacturer; // 生产厂家
     private BigDecimal price; // 单价
+    private String medicineStatus; // 库存状态
     private Integer stockQuantity; // 库存数量
     private Integer minStock; // 最低库存预警值
     private LocalDateTime createTime; // 创建时间
+    private LocalDateTime updateTime; // 更新时间
 }

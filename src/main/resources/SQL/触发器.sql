@@ -73,3 +73,12 @@ FOR EACH ROW
         SET NEW.record_id = UUID();
     end $$
 DELIMITER ;
+
+DELIMITER  $$
+CREATE TRIGGER medicines
+    BEFORE INSERT ON medicines
+    FOR EACH ROW
+BEGIN
+    SET NEW.medicine_id = UUID();
+end $$
+DELIMITER ;
