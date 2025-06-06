@@ -27,10 +27,12 @@ public class departmentServiceImpI implements departmentService {
         Result result = new Result();
         Integer flag = departmentsMapper.addDepartment(departmentDTO);
         if(flag == 1) {
+            log.info(MSG_INSERT_DEPARTMENT_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_INSERT_DEPARTMENT_SUCCESS);
             result.setData(departmentDTO);
         }else{
+            log.info(MSG_INSERT_DEPARTMENT_FAILED);
             result.setCode(0);
             result.setMsg(MSG_INSERT_DEPARTMENT_FAILED);
             result.setData(departmentDTO);
@@ -43,10 +45,12 @@ public class departmentServiceImpI implements departmentService {
         Result result = new Result();
         List<DepartmentDTO> departmentList = departmentsMapper.getDepartments(departmentDTO);
         if(departmentList != null && !departmentList.isEmpty()) {
+            log.info(MSG_SELECT_DEPARTMENT_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_SELECT_DEPARTMENT_SUCCESS);
             result.setData(departmentList);
         }else{
+            log.info(MSG_SELECT_DEPARTMENT_FAILED);
             result.setCode(0);
             result.setMsg(MSG_SELECT_DEPARTMENT_FAILED);
             result.setData(departmentList);
@@ -60,10 +64,12 @@ public class departmentServiceImpI implements departmentService {
         departmentDTO.setDeptId(departmentId);
         ProcedureResult procedureResult  = departmentsMapper.updateDepartment(departmentDTO);
         if(procedureResult.getMessage().equals("更新成功")) {
+            log.info(MSG_UPDATE_DEPARTMENT_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_UPDATE_DEPARTMENT_SUCCESS);
             result.setData(departmentDTO);
         }else{
+            log.info(MSG_UPDATE_DEPARTMENT_FAILED);
             result.setCode(0);
             result.setMsg(MSG_UPDATE_DEPARTMENT_FAILED);
             result.setData(departmentDTO);
@@ -99,10 +105,12 @@ public class departmentServiceImpI implements departmentService {
         Result result = new Result();
         Department department = departmentsMapper.getdepartmentById(departmentId);
         if(department != null) {
+            log.info(MSG_SELECT_DEPARTMENT_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_SELECT_DEPARTMENT_SUCCESS);
             result.setData(department);
         }else{
+            log.info(MSG_SELECT_DEPARTMENT_FAILED);
             result.setCode(0);
             result.setMsg(MSG_SELECT_DEPARTMENT_FAILED);
             result.setData(department);

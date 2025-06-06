@@ -21,7 +21,7 @@ public class MedicalRecordsController {
      */
     @PostMapping("/search")
     public Result getMedicalRecords(@RequestBody(required = false) MedicalRecordDTO medicalRecordDTO) {
-        log.info("查询病历,查询条件为:{}", medicalRecordDTO);
+        log.info("查询药品,查询条件为:{}", medicalRecordDTO);
         return medicalRecordsServiceImpl.getMedicalRecords(medicalRecordDTO);
     }
 
@@ -32,7 +32,7 @@ public class MedicalRecordsController {
      */
     @PostMapping
     public Result addMedicalRecord(@RequestBody MedicalRecordDTO medicalRecordDTO) {
-        log.info("添加病历:{}", medicalRecordDTO);
+        log.info("添加药品:{}", medicalRecordDTO);
         return medicalRecordsServiceImpl.addMedicalRecords(medicalRecordDTO);
     }
 
@@ -42,8 +42,8 @@ public class MedicalRecordsController {
      * @return
      */
     @DeleteMapping("/{medicalRecordId}")
-    public Result deleteMedicalRecord(@PathVariable String medicalRecordId) {
-        log.info("根据Id:{},删除病历", medicalRecordId);
+    public Result deleteMedicalRecord(@RequestBody String medicalRecordId) {
+        log.info("根据Id:{},删除药品", medicalRecordId);
         return medicalRecordsServiceImpl.deleteMedicalRecords(medicalRecordId);
     }
 
@@ -54,8 +54,8 @@ public class MedicalRecordsController {
      * @return
      */
     @PutMapping("/{medicalRecordId}")
-    public Result updateMedicalRecord(@PathVariable String medicalRecordId,@RequestBody MedicalRecordDTO medicalRecordDTO) {
-        log.info("根据Id:{},更改病历:{}", medicalRecordId, medicalRecordDTO);
+    public Result updateMedicalRecord(@RequestBody String medicalRecordId,@RequestBody MedicalRecordDTO medicalRecordDTO) {
+        log.info("根据Id:{},更改药品:{}", medicalRecordId, medicalRecordDTO);
         return medicalRecordsServiceImpl.updateMedicalRecords(medicalRecordId,medicalRecordDTO);
     }
 
@@ -65,8 +65,8 @@ public class MedicalRecordsController {
      * @return
      */
     @GetMapping("/{medicalRecordId}")
-    public Result getMedicalRecordById(@PathVariable String medicalRecordId) {
-        log.info("根据Id：:{} 查询病历", medicalRecordId);
+    public Result getMedicalRecordById(@RequestBody String medicalRecordId) {
+        log.info("根据Id：:{} 查询药品", medicalRecordId);
         return medicalRecordsServiceImpl.getMedicalRecordById(medicalRecordId);
     }
 }

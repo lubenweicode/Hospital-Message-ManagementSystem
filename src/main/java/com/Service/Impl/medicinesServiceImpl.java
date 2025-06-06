@@ -4,8 +4,10 @@ package com.Service.Impl;
 import com.Common.Result;
 import com.Entity.DTO.MedicineDTO;
 import com.Entity.Pojo.Medicine;
+import com.Entity.VO.MedicineVO;
 import com.Mapper.MedicinesMapper;
 import com.Service.medicinesService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import static com.Common.Common.MSG_OPERATION_SUCCESS;
 import static com.Common.ComMedicine.*;
 
 @Service
+@Slf4j
 public class medicinesServiceImpl implements medicinesService {
 
     @Autowired
@@ -26,10 +29,12 @@ public class medicinesServiceImpl implements medicinesService {
         Result result = new Result();
         Integer flag = MedicinesMapper.addMedicine(medicine);
         if(flag == 1){
+            log.info(MSG_INSERT_MEDICINE_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_INSERT_MEDICINE_SUCCESS);
             result.setData(medicine);
         }else{
+            log.info(MSG_INSERT_MEDICINE_FAILED);
             result.setCode(0);
             result.setMsg(MSG_INSERT_MEDICINE_FAILED);
             result.setData(medicine);
@@ -37,17 +42,24 @@ public class medicinesServiceImpl implements medicinesService {
         return result;
     }
 
+    /**
+     * 查询药品
+     * @param medicineDTO
+     * @return
+     */
     @Override
     public Result getMedicines(MedicineDTO medicineDTO) {
         Result result = new Result();
-        List<Medicine> medicineList = MedicinesMapper.getMedicine(medicineDTO);
+        List<MedicineVO> medicineList = MedicinesMapper.getMedicines(medicineDTO);
         if(medicineList != null){
+            log.info(MSG_SELECT_MEDICINE_SUCCESS);
             result.setCode(1);
-            result.setMsg(MSG_OPERATION_SUCCESS );
+            result.setMsg(MSG_SELECT_MEDICINE_SUCCESS);
             result.setData(medicineList);
         }else{
+            log.info(MSG_SELECT_MEDICINE_FAILED);
             result.setCode(0);
-            result.setMsg(MSG_OPERATION_FAILED);
+            result.setMsg(MSG_SELECT_MEDICINE_FAILED);
             result.setData(medicineDTO);
         }
         return result;
@@ -58,10 +70,12 @@ public class medicinesServiceImpl implements medicinesService {
         Result result = new Result();
         Integer flag = MedicinesMapper.deleteMedicine(medicineId);
         if(flag == 1){
+            log.info(MSG_DELETE_MEDICINE_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_DELETE_MEDICINE_SUCCESS);
             result.setData(medicineId);
         }else{
+            log.info(MSG_DELETE_MEDICINE_FAILED);
             result.setCode(0);
             result.setMsg(MSG_DELETE_MEDICINE_FAILED);
             result.setData(medicineId);
@@ -72,12 +86,15 @@ public class medicinesServiceImpl implements medicinesService {
     @Override
     public Result updateMedicines(String medicineId, MedicineDTO medicineDTO) {
         Result result = new Result();
-        Integer flag = MedicinesMapper.updateMedicine(medicineId,medicineDTO);
+        medicineDTO.setMedicineId(medicineId);
+        Integer flag = MedicinesMapper.updateMedicine(medicineDTO);
         if(flag == 1){
+            log.info(MSG_UPDATE_MEDICINE_SUCCESS);
             result.setCode(1);
             result.setMsg(MSG_UPDATE_MEDICINE_SUCCESS);
             result.setData(medicineId);
         }else{
+            log.info(MSG_UPDATE_MEDICINE_FAILED);
             result.setCode(0);
             result.setMsg(MSG_UPDATE_MEDICINE_FAILED);
             result.setData(medicineId);
@@ -93,14 +110,16 @@ public class medicinesServiceImpl implements medicinesService {
     @Override
     public Result getmedicineById(String medicineId) {
         Result result = new Result();
-        Medicine medicine = MedicinesMapper.getMedicineById(medicineId);
+        MedicineDTO medicine = MedicinesMapper.getMedicineById(medicineId);
         if(medicine != null){
+            log.info(MSG_SELECT_MEDICINE_SUCCESS);
             result.setCode(1);
-            result.setMsg(MSG_OPERATION_SUCCESS);
+            result.setMsg(MSG_SELECT_MEDICINE_SUCCESS);
             result.setData(medicine);
         }else{
+            log.info(MSG_SELECT_MEDICINE_FAILED);
             result.setCode(0);
-            result.setMsg(MSG_OPERATION_FAILED);
+            result.setMsg(MSG_SELECT_MEDICINE_SUCCESS);
             result.setData(medicineId);
         }
         return result;

@@ -5,15 +5,18 @@ import com.Mapper.SchedulesMapper;
 import com.Entity.DTO.ScheduleDTO;
 import com.Entity.Pojo.Schedule;
 import com.Service.schedulesService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.Common.ComScheduleAppointment.*;
 import static com.Common.ComUserAuth.MSG_OPERATION_FAILED;
 import static com.Common.ComUserAuth.MSG_OPERATION_SUCCESS;
 
 @Service
+@Slf4j
 public class schedulesServiceImpl implements schedulesService {
 
     @Autowired
@@ -25,19 +28,21 @@ public class schedulesServiceImpl implements schedulesService {
      */
     @Override
     public Result getSchedules(ScheduleDTO scheduleDTO) {
-        List<Schedule> scheduleList= schedulesMapper.getSchedules(scheduleDTO);
+        List<ScheduleDTO> scheduleList= schedulesMapper.getSchedules(scheduleDTO);
         Result result = new Result();
-        if(scheduleList!=null&&scheduleList.size()>0){
+        if(scheduleList!=null&& !scheduleList.isEmpty()){
+            log.info(MSG_SELECT_SCHEDULE_SUCCESS);
             result.setCode(1);
-            result.setMsg(MSG_OPERATION_SUCCESS);
+            result.setMsg(MSG_SELECT_SCHEDULE_SUCCESS);
             result.setData(scheduleList);
         }else{
+            log.info(MSG_SELECT_SCHEDULE_FAILED);
             result.setCode(0);
-            result.setMsg(MSG_OPERATION_FAILED);
+            result.setMsg(MSG_SELECT_SCHEDULE_FAILED);
             result.setData(null);
         }
 
-        return null;
+        return result;
     }
 
     /**
@@ -47,14 +52,16 @@ public class schedulesServiceImpl implements schedulesService {
      */
     @Override
     public Result insertSchedules(ScheduleDTO scheduleDTO) {
-        Integer flag = schedulesMapper.insertSchedules(scheduleDTO);
+        Integer flag = schedulesMapper.insertSchedule(scheduleDTO);
         Result result = new Result();
         if(flag>0){
+            log.info(MSG_INSERT_SCHEDULE_SUCCESS);
             result.setCode(1);
-            result.setMsg(MSG_OPERATION_SUCCESS);
+            result.setMsg(MSG_INSERT_SCHEDULE_SUCCESS);
         }else{
+            log.info(MSG_INSERT_SCHEDULE_FAILED);
             result.setCode(0);
-            result.setMsg(MSG_OPERATION_FAILED);
+            result.setMsg(MSG_INSERT_SCHEDULE_FAILED);
         }
         return result;
     }
@@ -66,14 +73,16 @@ public class schedulesServiceImpl implements schedulesService {
      */
     @Override
     public Result updateSchedules(String scheduleId,ScheduleDTO scheduleDTO) {
-        Integer flag = schedulesMapper.updateSchedules(scheduleDTO);
+        Integer flag = schedulesMapper.updateSchedule(scheduleDTO);
         Result result = new Result();
         if(flag>0){
+            log.info(MSG_UPDATE_SCHEDULE_SUCCESS);
             result.setCode(1);
-            result.setMsg(MSG_OPERATION_SUCCESS);
+            result.setMsg(MSG_UPDATE_SCHEDULE_SUCCESS);
         }else{
+            log.info(MSG_UPDATE_SCHEDULE_FAILED);
             result.setCode(0);
-            result.setMsg(MSG_OPERATION_FAILED);
+            result.setMsg(MSG_UPDATE_SCHEDULE_FAILED);
         }
         return result;
     }
@@ -88,11 +97,13 @@ public class schedulesServiceImpl implements schedulesService {
         Integer flag = schedulesMapper.deleteSchedules(scheduleId);
         Result result = new Result();
         if(flag>0){
+            log.info(MSG_DELETE_SCHEDULE_SUCCESS);
             result.setCode(1);
-            result.setMsg(MSG_OPERATION_SUCCESS);
+            result.setMsg(MSG_DELETE_SCHEDULE_SUCCESS);
         }else{
+            log.info(MSG_DELETE_SCHEDULE_FAILED);
             result.setCode(0);
-            result.setMsg(MSG_OPERATION_FAILED);
+            result.setMsg(MSG_DELETE_SCHEDULE_FAILED);
         }
         return result;
     }
@@ -105,14 +116,34 @@ public class schedulesServiceImpl implements schedulesService {
     @Override
     public Result getscheduleById(String scheduleId) {
         Result result = new Result();
-        Schedule schedule = schedulesMapper.getschedulesById(scheduleId);
+        ScheduleDTO schedule = schedulesMapper.getschedulesById(scheduleId);
         if(schedule!=null){
+            log.info(MSG_SELECT_SCHEDULE_SUCCESS);
             result.setCode(1);
-            result.setMsg(MSG_OPERATION_SUCCESS);
+            result.setMsg(MSG_SELECT_SCHEDULE_SUCCESS);
             result.setData(schedule);
         }else{
+            log.info(MSG_SELECT_SCHEDULE_FAILED);
             result.setCode(0);
-            result.setMsg(MSG_OPERATION_FAILED);
+            result.setMsg(MSG_SELECT_SCHEDULE_FAILED);
+            result.setData(null);
+        }
+        return result;
+    }
+
+    @Override
+    public Result getscheduleByDoctorId(String doctorId) {
+        Result result = new Result();
+        List<ScheduleDTO> scheduleDTO = schedulesMapper.getschedulesByDoctorId(doctorId);
+        if(scheduleDTO!=null){
+            log.info(MSG_SELECT_SCHEDULE_SUCCESS);
+            result.setCode(1);
+            result.setMsg(MSG_SELECT_SCHEDULE_SUCCESS);
+            result.setData(scheduleDTO);
+        }else{
+            log.info(MSG_SELECT_SCHEDULE_FAILED);
+            result.setCode(0);
+            result.setMsg(MSG_SELECT_SCHEDULE_FAILED);
             result.setData(null);
         }
         return result;
