@@ -1,10 +1,6 @@
 package com.Entity.VO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * 患者VO

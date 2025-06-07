@@ -11,13 +11,13 @@ import java.util.List;
 @Mapper
 public interface MedicinesMapper {
 
-    public List<MedicineVO> getMedicines(MedicineDTO medicineDTO);
+    List<MedicineVO> getMedicines(MedicineDTO medicineDTO);
 
-    public Integer addMedicine(Medicine medicine);
+    Integer addMedicine(Medicine medicine);
 
-    public Integer updateMedicine(MedicineDTO medicineDTO);
+    Integer updateMedicine(MedicineDTO medicineDTO);
 
-    public Integer deleteMedicine(String medicineId);
+    Integer deleteMedicine(String medicineId);
 
     @Select("select * from medicines where medicine_id=#{medicineId}")
     MedicineDTO getMedicineById(String medicineId);

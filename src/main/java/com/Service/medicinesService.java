@@ -13,21 +13,21 @@ public interface medicinesService {
      * @param medicineDTO
      * @return
      */
-    public Result getMedicines(MedicineDTO medicineDTO);
+    Result getMedicines(MedicineDTO medicineDTO);
 
     /**
      * 增加药品
      * @param medicine
      * @return
      */
-    public Result addMedicines(Medicine medicine);
+    Result addMedicines(Medicine medicine);
 
     /**
      * 删除药品
      * @param medicineId
      * @return
      */
-    public Result deleteMedicines(String medicineId);
+    Result deleteMedicines(String medicineId);
 
     /**
      * 更新药品
@@ -35,12 +35,12 @@ public interface medicinesService {
      * @param medicineDTO
      * @return
      */
-    public Result updateMedicines(String medicineId,MedicineDTO medicineDTO);
+    Result updateMedicines(String medicineId, MedicineDTO medicineDTO);
 
     /**
      * 根据Id查询药品
      * @param medicineId
      * @return
      */
-    public Result getmedicineById(String medicineId);
+    Result getmedicineById(String medicineId);
 }

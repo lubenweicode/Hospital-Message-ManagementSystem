@@ -1,10 +1,10 @@
 package com.Mapper;
 
-import com.Entity.Pojo.Appointment;
 import com.Entity.DTO.AppointmentDTO;
-import com.Entity.Pojo.ProcedureResult;
+import com.Entity.Pojo.Appointment;
 import com.Entity.VO.AppointmentVO;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -16,14 +16,14 @@ public interface AppointmentsMapper {
      * @param appointmentDTO
      * @return
      */
-    public List<AppointmentVO> select(AppointmentDTO appointmentDTO);
+    List<AppointmentVO> select(AppointmentDTO appointmentDTO);
 
     /**
      * 添加预约
      * @param appointmentDTO
      * @return
      */
-    public int insert(AppointmentDTO appointmentDTO);
+    int insert(AppointmentDTO appointmentDTO);
 
 
     /**
@@ -31,7 +31,7 @@ public interface AppointmentsMapper {
      * @param appointmentDTO
      * @return
      */
-    public int update(AppointmentDTO appointmentDTO);
+    int update(AppointmentDTO appointmentDTO);
 
     /**
      * 删除预约
@@ -39,7 +39,7 @@ public interface AppointmentsMapper {
      * @return
      */
 //    @Delete("delete from appointments where appointment_id=#{appointmentId}")
-    public int delete(String appointmentId);
+    int delete(String appointmentId);
 
     /**
      * 根据Id查询预约
@@ -47,5 +47,5 @@ public interface AppointmentsMapper {
      * @return
      */
     @Select("SELECT * FROM appointments where appointment_id=#{appointmentId}")
-    public Appointment getAppointmentById(String appointmentId);
+    Appointment getAppointmentById(String appointmentId);
 }

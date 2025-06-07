@@ -12,14 +12,14 @@ public interface appointmentService {
      * @param appointmentDTO
      * @return
      */
-    public Result getAppointments(AppointmentDTO appointmentDTO);
+    Result getAppointments(AppointmentDTO appointmentDTO);
 
     /**
      * 插入预约
      * @param appointmentDTO
      * @return
      */
-    public Result insertAppointment(AppointmentDTO appointmentDTO);
+    Result insertAppointment(AppointmentDTO appointmentDTO);
 
     /**
      * 根据ID更新预约
@@ -27,14 +27,14 @@ public interface appointmentService {
      * @param appointmentId
      * @return
      */
-    public Result updateAppointment(String appointmentId,AppointmentDTO appointmentDTO);
+    Result updateAppointment(String appointmentId, AppointmentDTO appointmentDTO);
 
     /**
      * 根据ID删除预约
      * @param appointmentId
      * @return
      */
-    public Result deleteAppointment(String appointmentId);
+    Result deleteAppointment(String appointmentId);
 
     /**
      * 根据Id查询预约
