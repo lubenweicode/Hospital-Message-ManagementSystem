@@ -22,14 +22,13 @@ public interface UsersMapper {
      * @param userDTO
      * @return
      */
-    Integer updateUser(@Param("userId") String userId, @Param("user") UserDTO userDTO);
+    Integer updateUser(UserDTO userDTO);
 
     /**
      * 添加用户
      * @param user
      * @return
      */
-    @Insert("INSERT INTO users (user_displayName,user_username,user_password, user_private,user_status) VALUES (#{userDisplayName},#{userUsername},#{userPassword},#{userPrivate},#{userStatus})")
     int insertUser(User user);
 
     /**
@@ -37,15 +36,26 @@ public interface UsersMapper {
      * @param id
      * @return
      */
-    @Delete("DELETE FROM users WHERE user_id = #{id}")
     int deleteUser(String id);
 
-    @Select("select * from users where user_id=#{userId}")
+    /**
+     * 根据用户id查询用户
+     * @param userId
+     * @return
+     */
     User getuserById(String userId);
 
-    @Select("select * from users where user_displayName=#{userDisplayName}")
+    /**
+     * 根据账户名查询用户
+     * @param userDisplayName
+     * @return
+     */
     User getUserByDisplayName(String userDisplayName);
 
-    @Select("select * from users where user_username=#{userUsername}")
+    /**
+     * 根据用户名查询用户
+     * @param userUsername
+     * @return
+     */
     User getUserByUsername(String userUsername);
 }

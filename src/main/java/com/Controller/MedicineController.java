@@ -2,6 +2,7 @@ package com.Controller;
 
 import com.Common.Result;
 import com.Entity.DTO.MedicineDTO;
+import com.Entity.DTO.OrderDTO;
 import com.Entity.Pojo.Medicine;
 import com.Service.medicinesService;
 import lombok.extern.slf4j.Slf4j;
@@ -70,5 +71,11 @@ public class MedicineController {
     public Result getMedicineById(@PathVariable String medicineId){
         log.info("根据Id:{} 查询药品",medicineId);
         return medicinesServiceImpl.getmedicineById(medicineId);
+    }
+
+    @PostMapping("/order")
+    public Result orderMedicines(@RequestBody OrderDTO orderDTO){
+        log.info("正在下单:{}",orderDTO);
+        return medicinesServiceImpl.orderMedicines(orderDTO);
     }
 }

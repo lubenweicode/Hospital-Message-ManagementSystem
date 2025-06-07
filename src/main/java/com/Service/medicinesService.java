@@ -2,6 +2,7 @@ package com.Service;
 
 import com.Common.Result;
 import com.Entity.DTO.MedicineDTO;
+import com.Entity.DTO.OrderDTO;
 import com.Entity.Pojo.Medicine;
 import org.springframework.stereotype.Service;
 
@@ -43,4 +44,11 @@ public interface medicinesService {
      * @return
      */
     Result getmedicineById(String medicineId);
+
+    /**
+     * 药品下单
+     * @param orderDTO
+     * @return
+     */
+    Result orderMedicines(OrderDTO orderDTO);
 }

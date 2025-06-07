@@ -176,7 +176,8 @@ public class userServiceImpl implements userService {
         userDTO.setUserUsername(username);
         userDTO.setUserPassword(password);
 
-        Integer flag = userMapper.updateUser(id,userDTO);
+        userDTO.setUserId(id);
+        Integer flag = userMapper.updateUser(userDTO);
         if(flag > 0){
             log.info(MSG_UPDATE_SUCCESS);
             result.setCode(1);

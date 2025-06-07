@@ -3,6 +3,7 @@ package com.Service.Impl;
 
 import com.Common.Result;
 import com.Entity.DTO.MedicineDTO;
+import com.Entity.DTO.OrderDTO;
 import com.Entity.Pojo.Medicine;
 import com.Entity.VO.MedicineVO;
 import com.Mapper.MedicinesMapper;
@@ -11,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.Common.ComMedicine.*;
 
@@ -119,6 +122,28 @@ public class medicinesServiceImpl implements medicinesService {
             result.setCode(0);
             result.setMsg(MSG_SELECT_MEDICINE_SUCCESS);
             result.setData(medicineId);
+        }
+        return result;
+    }
+
+    @Override
+    public Result orderMedicines(OrderDTO orderDTO){
+        Result result = new Result();
+        Map<String, Object> params = new HashMap<>();
+        params.put("medicineId", orderDTO.getMedicineId());
+        params.put("quantity", orderDTO.getQuantity());
+        params.put("success", orderDTO.getSuccess());
+        MedicinesMapper.order(params);
+        if((Integer)params.get("success") == 1){
+            log.info("下单成功,{}:",orderDTO);
+            result.setCode(1);
+            result.setMsg("下单成功");
+            result.setData(orderDTO);
+        }else{
+            log.info("下单失败,{}:",params.get("success"));
+            result.setCode(0);
+            result.setMsg("下单失败");
+            result.setData(orderDTO);
         }
         return result;
     }

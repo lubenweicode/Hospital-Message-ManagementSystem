@@ -60,7 +60,7 @@ ALTER TABLE schedules ADD COLUMN dept_id VARCHAR(20) COMMENT '科室ID';
 
 -- 添加科室
 DELIMITER //
-CREATE PROCEDURE sp_AddDepartment(
+CREATE PROCEDURE addDepartment(
     IN p_dept_name VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
     IN p_dept_id VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
     IN p_dept_head VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci
@@ -109,51 +109,6 @@ IF ROW_COUNT() = 0 THEN
 END IF;
 END //
 DELIMITER ;
--- 更新科室负责人
-DELIMITER //
-CREATE PROCEDURE sp_UpdateDeptHead(
-    IN p_dept_id VARCHAR(50),
-    IN p_new_head VARCHAR(50)
-)
-BEGIN
-    DECLARE doctor_exists INT;
-    DECLARE doctor_status INT;
-    DECLARE has_schedule_or_appointment INT;
-    -- 检查新指定医生ID是否存在且状态正常
-SELECT COUNT(*), doctor_status INTO doctor_exists, doctor_status
-FROM doctors
-WHERE doctor_id = p_new_head AND doctor_status = 1;
-IF doctor_exists = 0 THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = '新指定的医生ID不存在';
-    ELSEIF doctor_status = 0 THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = '新指定的医生状态不正常，无法设置为科室负责人';
-ELSE
-        -- 检查科室是否存在未完成的排班或预约
-SELECT COUNT(*) INTO has_schedule_or_appointment
-FROM (
-         SELECT 1
-         FROM schedules s
-                  JOIN doctors d ON s.doctor_id = d.doctor_id AND d.dept_id = p_dept_id AND s.schedule_status = 1
-         UNION ALL
-         SELECT 1
-         FROM appointments a
-                  JOIN doctors d ON a.doctor_id = d.doctor_id AND d.dept_id = p_dept_id AND a.appointment_status IN (1, 3)
-     ) AS subquery;
-IF has_schedule_or_appointment > 0 THEN
-            SIGNAL SQLSTATE '01000'
-                SET MESSAGE_TEXT = '该科室存在未完成的排班或预约，更新可能影响业务，请确认是否继续';
-ELSE
-            -- 更新科室负责人
-UPDATE departments
-SET dept_head = p_new_head
-WHERE dept_id = p_dept_id;
-END IF;
-END IF;
-END //
-DELIMITER ;
-
 -- 添加医生
 DELIMITER //
 CREATE PROCEDURE sp_AddDoctor(
@@ -179,9 +134,9 @@ END IF;
 END //
 DELIMITER ;
 
--- 更新医生所属科室
+-- 更新医生信息
 DELIMITER //
-CREATE PROCEDURE UpdateDoctorInfo(
+CREATE PROCEDURE updateDoctor(
     IN p_doctor_id varchar(50),
     IN p_doctor_name VARCHAR(255),
     IN p_doctor_gender int,
@@ -227,7 +182,7 @@ DELIMITER ;
 
 -- 物理删除医生记录（先取消排班和预约）
 DELIMITER //
-CREATE PROCEDURE sp_DeleteDoctor(
+CREATE PROCEDURE DeleteDoctor(
     IN p_doctor_id VARCHAR(50)
 )
 BEGIN

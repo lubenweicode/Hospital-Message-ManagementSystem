@@ -68,18 +68,13 @@ CREATE PROCEDURE AddPatient(
     IN p_patient_phone VARCHAR(20),
     IN p_patient_id_card VARCHAR(20),
     IN p_patient_allergy VARCHAR(200),
-    IN p_patient_history TEXT,
-    OUT p_patientId varchar(50)              -- 输出参数：患者ID（必须为第9个参数）
+    IN p_patient_history TEXT
 )
 BEGIN
     DECLARE v_patient_id VARCHAR(50);
 
     -- 获取当前日期
     SET @today = DATE_FORMAT(CURDATE(), '%Y%m%d');
-
-
--- 生成新患者ID
-SET p_patientId = UUID();
 
     -- 插入患者数据
 INSERT INTO patients (
@@ -140,6 +135,7 @@ END$$
 DELIMITER ;
 
 -- 删除患者存储过程（逻辑删除）
+DELIMITER $$
 CREATE PROCEDURE DeletePatient(IN p_patient_id VARCHAR(50))
 BEGIN
 delete from patients where patient_id = p_patient_id;

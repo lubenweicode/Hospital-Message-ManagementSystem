@@ -10,6 +10,9 @@
     <update id="updateMedicine">
         call updateMedicine(#{medicineId},#{medicineName},#{medicineSpec},#{medicineUnit},#{medicineCategory},#{manufacturer},#{price},#{stockQuantity},#{minStock})
     </update>
+    <update id="order" statementType="CALLABLE">
+        call sp_decrease_stock(#{medicineId},#{quantity},#{success,mode=OUT,jdbcType=INTEGER})
+    </update>
 
     <delete id="deleteMedicine">
         delete from medicines where medicine_id=#{medicineId}
