@@ -11,33 +11,33 @@ public interface patientsService {
      * 查询患者(允许条件查询)
      * @return
      */
-    public Result getPatients(PatientDTO patientDTO);
+    Result getPatients(PatientDTO patientDTO);
 
     /**
      * 增加患者
      * @param patientDTO
      * @return
      */
-    public Result addPatient(PatientDTO patientDTO);
+    Result addPatient(PatientDTO patientDTO);
 
     /**
      * 更新患者
      * @param patientId
      * @return
      */
-    public Result updatePatient(String patientId,PatientDTO patientDTO);
+    Result updatePatient(String patientId, PatientDTO patientDTO);
 
     /**
      * 删除患者
      * @param patientId
      * @return
      */
-    public Result deletePatient(String patientId);
+    Result deletePatient(String patientId);
 
     /**
      * 根据Id查询患者
      * @param patientId
      * @return
      */
-    public Result getPatientsById(String patientId);
+    Result getPatientsById(String patientId);
 }

@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface DepartmentsMapper {
@@ -17,28 +16,28 @@ public interface DepartmentsMapper {
      * @param departmentDTO
      * @return
      */
-    public List<DepartmentDTO> getDepartments(DepartmentDTO departmentDTO);
+    List<DepartmentDTO> getDepartments(DepartmentDTO departmentDTO);
 
     /**
      * 添加部门
      * @param departmentDTO
      * @return
      */
-    public Integer addDepartment(DepartmentDTO departmentDTO);
+    Integer addDepartment(DepartmentDTO departmentDTO);
 
     /**
      * 更新部门
      * @param departmentDTO
      * @return
      */
-    public ProcedureResult updateDepartment(DepartmentDTO departmentDTO);
+    ProcedureResult updateDepartment(DepartmentDTO departmentDTO);
 
     /**
      * 删除部门
      * @param deptId
      * @return
      */
-    public int deleteDepartment(String deptId);
+    int deleteDepartment(String deptId);
 
     /**
      * 根据Id查询部门

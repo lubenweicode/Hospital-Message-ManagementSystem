@@ -1,11 +1,10 @@
 package com.Service.Impl;
 
 import com.Common.Result;
-import com.Entity.Pojo.ProcedureResult;
+import com.Entity.DTO.AppointmentDTO;
+import com.Entity.Pojo.Appointment;
 import com.Entity.VO.AppointmentVO;
 import com.Mapper.AppointmentsMapper;
-import com.Entity.Pojo.Appointment;
-import com.Entity.DTO.AppointmentDTO;
 import com.Service.appointmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.Common.ComScheduleAppointment.*;
-import static com.Common.ComUserAuth.MSG_OPERATION_FAILED;
-import static com.Common.ComUserAuth.MSG_OPERATION_SUCCESS;
 
 @Service
 @Slf4j

@@ -11,13 +11,13 @@ import java.util.List;
 @Mapper
 public interface DoctorsMapper {
 
-    public List<DoctorVO> getDoctors(DoctorDTO doctorDTO);
+    List<DoctorVO> getDoctors(DoctorDTO doctorDTO);
 
-    public Integer addDoctor(Doctor doctor);
+    Integer addDoctor(Doctor doctor);
 
-    public Integer updateDoctor(DoctorDTO doctorDTO);
+    Integer updateDoctor(DoctorDTO doctorDTO);
 
-    public Integer deleteDoctor(String doctorId);
+    Integer deleteDoctor(String doctorId);
 
     /**
      * 根据Id查询医生

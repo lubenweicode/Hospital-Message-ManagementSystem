@@ -5,7 +5,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-import static com.Common.Key.*;
+import static com.Common.Key.COMMON_EXPIRATION_TIME;
+import static com.Common.Key.COMMON_JWT_KEY;
 
 @Component
 public class JwtUtils {

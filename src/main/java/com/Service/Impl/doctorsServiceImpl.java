@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.Common.ComPatientDoctor.*;
-import static com.Common.Common.MSG_OPERATION_FAILED;
-import static com.Common.Common.MSG_OPERATION_SUCCESS;
 
 @Slf4j
 @Service

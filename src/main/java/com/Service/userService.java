@@ -2,7 +2,6 @@ package com.Service;
 
 import com.Common.Result;
 import com.Entity.DTO.UserDTO;
-import com.Entity.Pojo.User;
 import org.springframework.stereotype.Service;
 
 @Service

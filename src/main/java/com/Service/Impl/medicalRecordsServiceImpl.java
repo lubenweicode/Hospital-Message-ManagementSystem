@@ -6,7 +6,6 @@ import com.Entity.Pojo.MedicalRecord;
 import com.Entity.VO.MedicalRecordVO;
 import com.Mapper.MedicalRecordsMapper;
 import com.Service.medicalRecordsService;
-import com.Service.medicinesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

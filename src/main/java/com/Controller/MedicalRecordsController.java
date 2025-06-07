@@ -42,7 +42,7 @@ public class MedicalRecordsController {
      * @return
      */
     @DeleteMapping("/{medicalRecordId}")
-    public Result deleteMedicalRecord(@RequestBody String medicalRecordId) {
+    public Result deleteMedicalRecord(@PathVariable String medicalRecordId) {
         log.info("根据Id:{},删除药品", medicalRecordId);
         return medicalRecordsServiceImpl.deleteMedicalRecords(medicalRecordId);
     }
@@ -54,7 +54,7 @@ public class MedicalRecordsController {
      * @return
      */
     @PutMapping("/{medicalRecordId}")
-    public Result updateMedicalRecord(@RequestBody String medicalRecordId,@RequestBody MedicalRecordDTO medicalRecordDTO) {
+    public Result updateMedicalRecord(@PathVariable String medicalRecordId,@RequestBody MedicalRecordDTO medicalRecordDTO) {
         log.info("根据Id:{},更改药品:{}", medicalRecordId, medicalRecordDTO);
         return medicalRecordsServiceImpl.updateMedicalRecords(medicalRecordId,medicalRecordDTO);
     }
@@ -65,7 +65,7 @@ public class MedicalRecordsController {
      * @return
      */
     @GetMapping("/{medicalRecordId}")
-    public Result getMedicalRecordById(@RequestBody String medicalRecordId) {
+    public Result getMedicalRecordById(@PathVariable String medicalRecordId) {
         log.info("根据Id：:{} 查询药品", medicalRecordId);
         return medicalRecordsServiceImpl.getMedicalRecordById(medicalRecordId);
     }

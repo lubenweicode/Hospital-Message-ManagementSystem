@@ -1,9 +1,8 @@
 package com.Service.Impl;
 
 import com.Common.Result;
-import com.Mapper.SchedulesMapper;
 import com.Entity.DTO.ScheduleDTO;
-import com.Entity.Pojo.Schedule;
+import com.Mapper.SchedulesMapper;
 import com.Service.schedulesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.Common.ComScheduleAppointment.*;
-import static com.Common.ComUserAuth.MSG_OPERATION_FAILED;
-import static com.Common.ComUserAuth.MSG_OPERATION_SUCCESS;
 
 @Service
 @Slf4j

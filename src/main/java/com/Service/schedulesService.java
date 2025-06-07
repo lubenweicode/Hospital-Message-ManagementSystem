@@ -12,28 +12,28 @@ public interface schedulesService {
      * @param scheduleDTO
      * @return
      */
-    public Result getSchedules(ScheduleDTO scheduleDTO);
+    Result getSchedules(ScheduleDTO scheduleDTO);
 
     /**
      * 创建排班
      * @param scheduleDTO
      * @return
      */
-    public Result insertSchedules(ScheduleDTO scheduleDTO);
+    Result insertSchedules(ScheduleDTO scheduleDTO);
 
     /**
      * 更新排班
      * @param scheduleDTO
      * @return
      */
-    public Result updateSchedules(String Id,ScheduleDTO scheduleDTO);
+    Result updateSchedules(String Id, ScheduleDTO scheduleDTO);
 
     /**
      * 删除排班
      * @param scheduleId
      * @return
      */
-    public Result deleteSchedules(String scheduleId);
+    Result deleteSchedules(String scheduleId);
 
     /**
      * 根据Id查询排班
