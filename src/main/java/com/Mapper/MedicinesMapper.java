@@ -25,7 +25,4 @@ public interface MedicinesMapper {
     MedicineDTO getMedicineById(String medicineId);
 
     void order(Map<String,Object> map);
-
-    @Select("SELECT * FROM emergency_medicines")
-    Integer count();
 }

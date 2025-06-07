@@ -51,6 +51,4 @@ public interface medicinesService {
      * @return
      */
     Result orderMedicines(OrderDTO orderDTO);
-
-    Result count();
 }
