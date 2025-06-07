@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Mapper.DoctorsMapper">
 
-    <select id="addDoctor" statementType="CALLABLE">
+    <select id="addDoctor" statementType="CALLABLE" resultType="Integer">
         {call addDoctor(
                 #{doctorName, mode=IN, jdbcType=VARCHAR},
                 #{doctorGender, mode=IN, jdbcType=TINYINT},

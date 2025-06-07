@@ -41,14 +41,14 @@ public class loginServiceImpl implements loginService {
         // 1.用户账户名认证
         if(!validateUsername(username)){
             log.info(MSG_ACCOUNT_NUMBER_INVALID);
-            result.setCode(1);
+            result.setCode(0);
             result.setMsg(MSG_ACCOUNT_NUMBER_INVALID);
             return result;
         }
         // 2.用户密码验证
         if(!validatePassword(password)){
             log.info(MSG_PASSWORD_NUMBER_INVALID);
-            result.setCode(1);
+            result.setCode(0);
             result.setMsg(MSG_PASSWORD_NUMBER_INVALID);
             return result;
         }
@@ -82,6 +82,7 @@ public class loginServiceImpl implements loginService {
     @Override
     public Result register(String username, String password) {
         Result result = new Result();
+        String displayname = username;
         // 账户和密码认证
         // 1.用户账户名认证
         if(!validateUsername(username)){
@@ -118,6 +119,7 @@ public class loginServiceImpl implements loginService {
         User user = new User();
         user.setUserUsername(username);
         user.setUserPassword(password);
+        user.setUserDisplayName(displayname);
         Integer f=userMapper.insertUser(user);
 
         if(f != null){

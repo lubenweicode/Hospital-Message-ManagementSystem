@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface MedicalRecordsMapper {
 
-    List<MedicalRecord> getMedicalRecords(MedicalRecordDTO medicineRecordDTO);
+    List<MedicalRecordDTO> getMedicalRecords(MedicalRecordDTO medicineRecordDTO);
 
     Integer addMedicalRecord(MedicalRecordDTO medicineRecordDTO);
 

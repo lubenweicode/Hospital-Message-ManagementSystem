@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LoginMapper {
 
-    @Select("SELECT * from users where user_username=#{userName} and user_password=#{userPassword}")
+    @Select("SELECT * from users where user_username=#{userName} and user_password=#{userPassword} and user_status!=0")
     User login(String userName, String userPassword);
 
     @Insert(("INSERT INTO users (user_username,user_password) values (#{userName},#{userPassword})"))

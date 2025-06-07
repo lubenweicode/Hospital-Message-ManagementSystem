@@ -12,7 +12,7 @@
 
 
 
-    <select id="deleteDepartment" parameterType="String" statementType="CALLABLE">
+    <select id="deleteDepartment" parameterType="String" statementType="CALLABLE" resultType="integer">
         {call deleteDepartments(#{deptId, mode=IN, jdbcType=VARCHAR})}
     </select>
 
