@@ -11,7 +11,7 @@ import java.util.List;
 public interface PatientsMapper {
 
 
-    List<Patient> getPatients(PatientDTO patientDTO);
+    List<PatientDTO> getPatients(PatientDTO patientDTO);
 
     void addPatient(PatientDTO patientDTO);
 

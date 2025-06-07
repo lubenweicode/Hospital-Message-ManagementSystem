@@ -22,7 +22,7 @@ public class medicalRecordsServiceImpl implements medicalRecordsService {
     @Override
     public Result getMedicalRecords(MedicalRecordDTO medicalRecordDTO) {
         Result result = new Result();
-        List<MedicalRecord> medicalRecordList = medicalRecordsMapper.getMedicalRecords( medicalRecordDTO);
+        List<MedicalRecordDTO> medicalRecordList = medicalRecordsMapper.getMedicalRecords( medicalRecordDTO);
         if(medicalRecordList != null){
             result.setCode(1);
             result.setMsg(MSG_SELECT_MEDICALRECORD_SUCCESS);

@@ -47,7 +47,7 @@ public class patientsServiceImpl implements patientsService {
     @Override
     public Result getPatients(PatientDTO patientDTO) {
         Result result = new Result();
-        List<Patient> patientsList = patientsMapper.getPatients(patientDTO);
+        List<PatientDTO> patientsList = patientsMapper.getPatients(patientDTO);
         if(patientsList == null || patientsList.isEmpty()){
             log.info(MSG_SELECT_PATIENTS_SUCCESS);
             result.setCode(0);

@@ -29,7 +29,7 @@ public interface UsersMapper {
      * @param user
      * @return
      */
-    @Insert("INSERT INTO users (user_displayName,user_username,user_password, user_private) VALUES (#{userDisplayName},#{userUsername},#{userPassword},#{userPrivate})")
+    @Insert("INSERT INTO users (user_displayName,user_username,user_password, user_private,user_status) VALUES (#{userDisplayName},#{userUsername},#{userPassword},#{userPrivate},#{userStatus})")
     int insertUser(User user);
 
     /**
@@ -44,8 +44,8 @@ public interface UsersMapper {
     User getuserById(String userId);
 
     @Select("select * from users where user_displayName=#{userDisplayName}")
-    String getUserByDisplayName(String userDisplayName);
+    User getUserByDisplayName(String userDisplayName);
 
     @Select("select * from users where user_username=#{userUsername}")
-    Integer getUserByUsername(String userUsername);
+    User getUserByUsername(String userUsername);
 }

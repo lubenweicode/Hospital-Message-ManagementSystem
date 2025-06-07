@@ -33,6 +33,9 @@
             <if test="user.userPrivate != null">
                 user_private = #{user.userPrivate},
             </if>
+            <if test="user.userStatus != null">
+                user_status = #{user.userStatus},
+            </if>
         </set>
         where user_id = #{userId}
     </update>

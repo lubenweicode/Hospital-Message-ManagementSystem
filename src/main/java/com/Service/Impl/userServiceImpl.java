@@ -141,11 +141,12 @@ public class userServiceImpl implements userService {
 
         // 检验自身是否发生过变化,有则检验是否重名
         if(!originalUser.getUserDisplayName().equals(userDTO.getUserDisplayName())){
-            String flag1 = userMapper.getUserByDisplayName(userDTO.getUserDisplayName());
-            if(flag1.isEmpty()){
+            User user1 = userMapper.getUserByDisplayName(userDTO.getUserDisplayName());
+            if(user1==null){
                 // 没有重名
                 log.info("没有重复账户名:{}", userDTO.getUserDisplayName());
             }else{
+                log.info(MSG_UPDATE_FAILED);
                 result.setCode(0);
                 result.setMsg(MSG_UPDATE_FAILED);
                 return result;
@@ -158,11 +159,12 @@ public class userServiceImpl implements userService {
 
         // 检验自身是否发生过变化,有则检验是否重名
         if(!originalUser.getUserUsername().equals(username)){
-            Integer flag2 = userMapper.getUserByUsername(username);
-            if(flag2 == null || flag2 == 0){
+            User flag2 = userMapper.getUserByUsername(username);
+            if(flag2 == null){
                 // 没有重复用户号
                 log.info("没有重复用户号:{}", userDTO.getUserUsername());
             }else{
+                log.info(MSG_UPDATE_FAILED);
                 result.setCode(0);
                 result.setMsg(MSG_UPDATE_FAILED);
                 return result;

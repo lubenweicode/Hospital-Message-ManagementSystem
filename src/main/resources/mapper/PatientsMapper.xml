@@ -18,7 +18,7 @@
         )}
     </insert>
 
-    <select id="updatePatient" statementType="CALLABLE">
+    <select id="updatePatient" statementType="CALLABLE" resultType="integer">
         {call updatePatient(
                 #{patientId, mode=IN, jdbcType=INTEGER},
                 #{patientName, mode=IN, jdbcType=VARCHAR},
