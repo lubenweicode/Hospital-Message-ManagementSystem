@@ -1,3 +1,4 @@
+# 添加预约
 delimiter //
 create procedure addAppointment(in p_patient_id varchar(50),in p_doctor_id varchar(50),in p_appointment_status tinyint,in p_appointment_symptoms varchar(255))
 begin
@@ -57,6 +58,7 @@ END$$
 
 DELIMITER //
 
+# 更新预约
 CREATE PROCEDURE `updateAppointment`(
     IN p_appointment_id VARCHAR(50),      -- 添加预约ID作为更新条件
     IN p_patient_id VARCHAR(50),

@@ -7,30 +7,12 @@ CREATE PROCEDURE getSchedules(
     IN p_scheduleStatus VARCHAR(50)
 )
 BEGIN
-    -- 构建动态SQL查询语句
-    SET @query = 'SELECT * FROM schedules WHERE 1=1';
-
-    -- 针对各个参数，在非NULL时添加对应的筛选条件
-    IF p_doctorName IS NOT NULL THEN
-        SET @query = CONCAT(@query, ' AND doctor_name = ', QUOTE(p_doctorName));
-    END IF;
-
-    IF p_startDate IS NOT NULL THEN
-        SET @query = CONCAT(@query, ' AND schedule_date >= ', QUOTE(p_startDate));
-    END IF;
-
-    IF p_endDate IS NOT NULL THEN
-        SET @query = CONCAT(@query, ' AND schedule_date <= ', QUOTE(p_endDate));
-    END IF;
-
-    IF p_scheduleStatus IS NOT NULL THEN
-        SET @query = CONCAT(@query, ' AND status = ', QUOTE(p_scheduleStatus));
-    END IF;
-
-    -- 执行动态构建的SQL查询
-    PREPARE stmt FROM @query;
-    EXECUTE stmt;
-    DEALLOCATE PREPARE stmt;
+    SELECT *
+    FROM schedules
+    WHERE (p_doctorName IS NULL OR doctor_name = p_doctorName)
+      AND (p_startDate IS NULL OR schedule_date >= p_startDate)
+      AND (p_endDate IS NULL OR schedule_date <= p_endDate)
+      AND (p_scheduleStatus IS NULL OR schedule_status = p_scheduleStatus);
 END$$
 
 DELIMITER $$
@@ -40,8 +22,7 @@ CREATE PROCEDURE addSchedule(
     IN p_startDate DATE,
     IN p_scheduleTime TIME,
     IN p_maxPatients INT,
-    IN p_scheduleStatus VARCHAR(10),
-    OUT p_scheduleId INT
+    IN p_scheduleStatus VARCHAR(10)
 )
 BEGIN
     -- 插入排班记录
@@ -63,12 +44,7 @@ BEGIN
                NOW(),
                 0
            );
-
-    -- 返回新插入记录的ID
 END$$
-
-DELIMITER ;
-
 DELIMITER ;
 
 delimiter //

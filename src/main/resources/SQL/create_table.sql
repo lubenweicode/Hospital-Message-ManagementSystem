@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS departments (
                              dept_address varchar(50) comment '科室地址',
                              dept_head VARCHAR(50) COMMENT '科室负责人 ID',
                              dept_status TINYINT DEFAULT 1 COMMENT '科室状态,0: 停用 1: 启用（默认）',
-                             create_time DATETIME COMMENT '创建时间 '
+                             create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间 '
 ) COMMENT '科室表';
 
 CREATE TABLE IF NOT EXISTS doctors (
@@ -47,11 +47,11 @@ CREATE TABLE IF NOT EXISTS doctors (
                          doctor_name VARCHAR(50) COMMENT '医生姓名',
                          doctor_gender TINYINT NOT NULL COMMENT ' 1: 男 2: 女',
                          doctor_title VARCHAR(50) COMMENT '职称',
-                         doctor_dept_id VARCHAR(20) COMMENT '所属科室 ID',
+                         dept_id VARCHAR(20) COMMENT '所属科室 ID',
                          doctor_specialty VARCHAR(100) COMMENT '擅长领域',
                          doctor_status TINYINT COMMENT '状态,0: 休假 1: 正常出诊',
-                         create_time DATETIME COMMENT '创建时间',
-                         FOREIGN KEY (`doctor_dept_id`) REFERENCES departments(`dept_id`)
+                         create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                         FOREIGN KEY (`dept_id`) REFERENCES departments(`dept_id`)
 ) COMMENT '医生表';
 
 -- 预约与排班管理
@@ -72,7 +72,9 @@ CREATE TABLE IF NOT EXISTS schedules (
 CREATE TABLE IF NOT EXISTS appointments (
                               appointment_id VARCHAR(50) PRIMARY KEY COMMENT '预约 ID',
                               patient_id VARCHAR(50) COMMENT '患者 ID',
+                              patient_name varchar(50) COMMENT '患者名字',
                               doctor_id VARCHAR(50) COMMENT '医生 ID',
+                              doctor_name varchar(50) COMMENT '医生名字',
                               schedule_id varchar(50) COMMENT '排班 ID',
                               appointment_time DATETIME COMMENT '预约时间',
                               symptoms VARCHAR(200) COMMENT '症状描述',
@@ -86,15 +88,20 @@ CREATE TABLE IF NOT EXISTS appointments (
 -- 病历与诊断管理
 CREATE TABLE IF NOT EXISTS medical_records (
                                  record_id VARCHAR(50) PRIMARY KEY COMMENT '病历ID（主键）',
-                                 patient_id VARCHAR(50),
-                                 doctor_id VARCHAR(50),
+                                 patient_id VARCHAR(50) COMMENT '患者ID',
+                                 patient_name varchar(50) COMMENT '患者名字',
+                                 doctor_id VARCHAR(50) COMMENT '医生ID',
+                                 doctor_name varchar(50) COMMENT '医生名字',
                                  record_date DATETIME COMMENT '记录日期',
                                  symptoms TEXT COMMENT '症状描述,医生填写',
                                  diagnosis TEXT COMMENT '诊断结果',
                                  treatment_plan TEXT COMMENT '治疗方案',
                                  medications TEXT COMMENT '用药记录,JSON格式存储药品信息',
                                  record_status TINYINT DEFAULT 0 COMMENT '病历状态,0: 草稿 1: 已提交 2: 已审核',
-                                 create_time DATETIME COMMENT '创建时间',
+                                 create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                 update_time DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                 start_time DATETIME COMMENT '开始时间',
+                                 end_time DATETIME COMMENT '结束时间',
                                  FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
                                  FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
 ) COMMENT '病历表';
@@ -110,19 +117,6 @@ CREATE TABLE IF NOT EXISTS medicines (
                            price DECIMAL(10,2) COMMENT '单价',
                            stock_quantity INT COMMENT '库存数量',
                            min_stock INT COMMENT '最低库存预警值',
-                           create_time DATETIME COMMENT '创建时间'
+                           create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                           update_time DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) COMMENT '药品表';
-
-# CREATE TABLE IF NOT EXISTS inventory_records (
-#                                    record_id varchar(50) PRIMARY KEY COMMENT '记录ID',
-#                                    medicine_id VARCHAR(50),
-#                                    operation_type TINYINT COMMENT '操作类型,1: 入库 2: 出库 3: 退货',
-#                                    quantity INT COMMENT '数量,入库为正,出库为负',
-#                                    operator_id VARCHAR(50),
-#                                    operation_time DATETIME COMMENT '操作时间',
-#                                    reason VARCHAR(200) COMMENT '操作原因',
-#                                    batch_number VARCHAR(50) COMMENT '批次号',
-#                                    expiry_date DATE COMMENT '有效期',
-#                                    FOREIGN KEY (medicine_id) REFERENCES medicines(medicine_id),
-#                                    FOREIGN KEY (operator_id) REFERENCES users(user_id)
-# ) COMMENT '库存记录表';
