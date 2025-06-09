@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class PatientsController {
 
-    @Qualifier("patientsServiceImpl")
     @Autowired
     private patientsService patientsServiceImpl;
 

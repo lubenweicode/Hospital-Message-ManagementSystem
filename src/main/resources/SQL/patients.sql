@@ -72,10 +72,6 @@ CREATE PROCEDURE AddPatient(
 )
 BEGIN
     DECLARE v_patient_id VARCHAR(50);
-
-    -- 获取当前日期
-    SET @today = DATE_FORMAT(CURDATE(), '%Y%m%d');
-
     -- 插入患者数据
 INSERT INTO patients (
     patient_id,
