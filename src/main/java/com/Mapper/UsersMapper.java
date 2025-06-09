@@ -18,7 +18,6 @@ public interface UsersMapper {
     /**
      * 根据查询用户 启用和禁用用户权限
      * 只有管理员才能选择禁用和启用其他用户
-     * TODO 被禁用的用户无法登录系统
      * @param userDTO
      * @return
      */
