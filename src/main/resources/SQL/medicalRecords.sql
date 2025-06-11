@@ -3,6 +3,7 @@ delimiter //
 create procedure addMedicalRecords(IN p_patient_id varchar(50),IN p_patient_name varchar(50),in p_doctor_id varchar(50),IN p_doctor_name varchar(50),in p_record_date datetime,in p_symptoms varchar(255),
 in p_diagnosis varchar(255),in p_medications varchar(255),in p_treatment_plan varchar(255),in p_record_status tinyint)
 begin
+
     if(p_medications='')then
         set p_medications=null;
     end if;
@@ -12,26 +13,39 @@ begin
 end //
 
 # 更新病历
-DELIMITER //
-
-CREATE PROCEDURE updateMedicalRecords(IN p_patient_id VARCHAR(50),IN p_patient_name VARCHAR(50),IN p_doctor_id VARCHAR(50),IN p_doctor_name VARCHAR(50),IN p_record_date DATETIME,
-IN p_symptoms VARCHAR(255),IN p_diagnosis VARCHAR(255),IN p_medications VARCHAR(255),IN p_treatment_plan VARCHAR(255),IN p_record_status TINYINT
-)
+create
+    definer = root@localhost procedure updateMedicalRecords(IN p_record_id varchar(50), IN p_patient_id varchar(50),
+                                                            IN p_patient_name varchar(50), IN p_doctor_id varchar(50),
+                                                            IN p_doctor_name varchar(50), IN p_record_date datetime,
+                                                            IN p_symptoms varchar(255), IN p_diagnosis varchar(255),
+                                                            IN p_medications varchar(255),
+                                                            IN p_treatment_plan varchar(255),
+                                                            IN p_record_status tinyint)
 BEGIN
-    -- 如果药物字段为空字符串，则设置为NULL
-    IF (p_medications = '') THEN
+
+
+
+    IF p_medications = '' THEN
         SET p_medications = NULL;
     END IF;
 
-    -- 使用正确的UPDATE语法
     UPDATE medical_records
     SET
-        patient_id = p_patient_id,patient_name = p_patient_name,doctor_id = p_doctor_id,doctor_name = p_doctor_name,record_date = p_record_date,
-        symptoms = p_symptoms,diagnosis = p_diagnosis,treatment_plan = p_treatment_plan,medications = p_medications,record_status = p_record_status
-    WHERE patient_id = p_patient_id; -- 假设通过patient_id来唯一标识记录，你可能需要根据实际情况调整WHERE子句
-END //
+        patient_id = COALESCE(p_patient_id, patient_id),
+        patient_name = COALESCE(p_patient_name, patient_name),
+        doctor_id = COALESCE(p_doctor_id, doctor_id),
+        doctor_name = COALESCE(p_doctor_name, doctor_name),
+        record_date = COALESCE(p_record_date, record_date),
+        symptoms = COALESCE(p_symptoms, symptoms),
+        diagnosis = COALESCE(p_diagnosis, diagnosis),
+        medications = COALESCE(p_medications, medications),
+        treatment_plan = COALESCE(p_treatment_plan, treatment_plan),
+        record_status = COALESCE(p_record_status, record_status),
+        update_time = NOW()
+    WHERE record_id = p_record_id;
+END;
 
-DELIMITER ;
+
 
 # 删除病历
 delimiter //

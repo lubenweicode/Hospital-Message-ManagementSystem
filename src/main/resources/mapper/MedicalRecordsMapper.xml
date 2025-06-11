@@ -8,7 +8,7 @@
     </insert>
 
     <update id="updateMedicalRecord">
-        call updateMedicalRecords(#{patientId},#{patientName},#{doctorId},#{doctorName},#{recordDate},#{symptoms},#{diagnosis},#{medications},#{treatmentPlan},#{recordStatus})
+        call updateMedicalRecords(#{recordId},#{patientId},#{patientName},#{doctorId},#{doctorName},#{recordDate},#{symptoms},#{diagnosis},#{medications},#{treatmentPlan},#{recordStatus})
     </update>
 
     <delete id="deleteMedicalRecord">
