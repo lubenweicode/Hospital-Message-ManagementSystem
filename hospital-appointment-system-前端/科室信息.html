@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医院科室信息管理系统</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-50 font-sans">
+  <div class="min-h-screen flex flex-col">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-md z-10">
+      <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <i class="fa fa-hospital-o text-blue-600 text-2xl"></i>
+          <h1 class="text-xl font-bold text-gray-800">医院科室信息管理系统</h1>
+        </div>
+        <nav>
+          <ul class="flex space-x-6">
+            <li><a href="./index1.html" class="text-gray-600 hover:text-blue-600 transition-colors">首页</a></li>
+            <li><a href="./医生信息.html" class="text-gray-600 hover:text-blue-600 transition-colors">医生管理</a></li>
+            <li><a href="./科室信息.html" class="text-blue-600 font-medium">科室管理</a></li>
+            <!-- <li><a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">患者管理</a></li> -->
+          </ul>
+        </nav>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <button class="bg-gray-100 rounded-full p-2 text-gray-600 hover:bg-gray-200 transition-colors">
+              <i class="fa fa-bell"></i>
+              <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+          </div>
+          <div class="flex items-center">
+            <img src="https://picsum.photos/id/64/40/40" alt="管理员头像" class="w-8 h-8 rounded-full mr-2">
+            <span class="text-sm font-medium text-gray-700">管理员</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="flex-1 container mx-auto px-4 py-6">
+      <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-800">科室信息管理</h2>
+            <p class="text-gray-600">管理所有科室的基本信息</p>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <button id="add-department-btn"
+              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
+              <i class="fa fa-plus mr-2"></i> 添加科室
+            </button>
+          </div>
+        </div>
+
+        <!-- 搜索和筛选 -->
+        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">科室名称</label>
+              <input type="text" id="search-name" placeholder="请输入科室名称"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">科室状态</label>
+              <select id="search-status"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="">全部</option>
+                <option value="1">启用</option>
+                <option value="0">停用</option>
+              </select>
+            </div>
+            <div class="flex items-end">
+              <button id="search-btn"
+                class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center">
+                <i class="fa fa-search mr-2"></i> 搜索
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 科室列表 -->
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  科室ID</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  科室名称</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  科室描述</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  科室负责人</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  状态</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  创建时间</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  操作</th>
+              </tr>
+            </thead>
+            <tbody id="department-list" class="bg-white divide-y divide-gray-200">
+              <!-- 科室数据将通过axios动态加载 -->
+              <tr class="text-center">
+                <td colspan="7" class="px-6 py-12 text-gray-500">
+                  <div class="flex flex-col items-center">
+                    <i class="fa fa-hospital-o text-4xl mb-4 text-gray-300"></i>
+                    <p>暂无科室数据</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 分页 -->
+        <div class="flex items-center justify-between px-4 py-3 sm:px-6 mt-4">
+          <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+              <p class="text-sm text-gray-700">
+                显示第 <span class="font-medium">1</span> 到 <span class="font-medium">10</span> 条，共 <span
+                  class="font-medium" id="total-count">0</span> 条记录
+              </p>
+            </div>
+            <div>
+              <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                <a href="#"
+                  class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                  <span class="sr-only">上一页</span>
+                  <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="#"
+                  class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600 hover:bg-blue-100">
+                  1
+                </a>
+                <a href="#"
+                  class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  2
+                </a>
+                <span
+                  class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                  ...
+                </span>
+                <a href="#"
+                  class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  10
+                </a>
+                <a href="#"
+                  class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                  <span class="sr-only">下一页</span>
+                  <i class="fa fa-chevron-right"></i>
+                </a>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-6">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <p class="text-sm text-gray-400">© 2025 医院科室信息管理系统. 保留所有权利.</p>
+          </div>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-question-circle"></i> 帮助中心
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-shield"></i> 隐私政策
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-file-text-o"></i> 使用条款
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 添加/编辑科室模态框 -->
+  <div id="department-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+      <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+        <h3 id="modal-title" class="text-lg font-semibold text-gray-900">添加科室</h3>
+        <button id="close-modal" class="text-gray-400 hover:text-gray-500">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <div id="modal-content" class="p-6">
+        <form id="department-form">
+          <input type="hidden" id="department-id" name="department_id">
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="department-name" class="block text-sm font-medium text-gray-700 mb-1">科室名称 <span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="department-name" name="department_name" required
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            <div>
+              <label for="department-head" class="block text-sm font-medium text-gray-700 mb-1">科室负责人 <span
+                  class="text-red-500">*</span></label>
+              <select id="department-head" name="department_head" required
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="">请选择科室负责人</option>
+                <!-- 医生列表将通过axios动态加载 -->
+              </select>
+            </div>
+            <div>
+              <label for="department-status" class="block text-sm font-medium text-gray-700 mb-1">状态 <span
+                  class="text-red-500">*</span></label>
+              <select id="department-status" name="department_status" required
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="">请选择状态</option>
+                <option value="1">启用</option>
+                <option value="0">停用</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label for="department-description" class="block text-sm font-medium text-gray-700 mb-1">科室描述</label>
+            <textarea id="department-description" name="department_description" rows="4"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="p-6 border-t border-gray-200 flex justify-end space-x-3">
+        <button id="cancel-modal"
+          class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          取消
+        </button>
+        <button id="save-department"
+          class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          保存
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 删除确认模态框 -->
+  <div id="delete-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+      <div class="p-6">
+        <div class="text-center">
+          <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+            <i class="fa fa-trash text-red-500 text-xl"></i>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">确认删除</h3>
+          <p class="text-sm text-gray-500 mb-6">你确定要删除该科室信息吗？此操作不可撤销。</p>
+        </div>
+        <div class="flex justify-center space-x-4">
+          <button id="cancel-delete"
+            class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            取消
+          </button>
+          <button id="confirm-delete"
+            class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+            确认删除
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/科室信息.js"></script>
+</body>
+
+</html>
