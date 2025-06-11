@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医院预约系统</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="./js/script.js"></script>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-gray-50 font-sans">
+  <!-- 导航栏 -->
+  <nav id="navbar" class="fixed w-full bg-white shadow-md transition-all duration-300 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fa fa-heartbeat text-red-500 text-2xl"></i>
+        <span class="text-xl font-bold">健康医院</span>
+      </div>
+      <div class="hidden md:flex space-x-8">
+        <a href="#" class="font-medium hover:text-red-500 transition-colors">首页</a>
+        <a href="#departments" class="font-medium hover:text-red-500 transition-colors">科室介绍</a>
+        <a href="#doctors" class="font-medium hover:text-red-500 transition-colors">医生团队</a>
+        <a href="#appointment" class="font-medium hover:text-red-500 transition-colors">预约挂号</a>
+        <a href="#contact" class="font-medium hover:text-red-500 transition-colors">联系我们</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button id="loginBtn" class="hidden md:block px-4 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors">
+          登录
+        </button>
+        <button id="registerBtn" class="hidden md:block px-4 py-2 rounded-full border border-red-500 text-red-500 hover:bg-red-50 transition-colors">
+          注册
+        </button>
+        <button id="mobileMenuBtn" class="md:hidden text-gray-700">
+          <i class="fa fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+    <!-- 移动端菜单 -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+      <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+        <a href="#" class="py-2 border-b border-gray-100">首页</a>
+        <a href="#departments" class="py-2 border-b border-gray-100">科室介绍</a>
+        <a href="#doctors" class="py-2 border-b border-gray-100">医生团队</a>
+        <a href="#appointment" class="py-2 border-b border-gray-100">预约挂号</a>
+        <a href="#contact" class="py-2 border-b border-gray-100">联系我们</a>
+        <div class="flex space-x-2 pt-2">
+          <button class="flex-1 py-2 rounded-full bg-red-500 text-white">登录</button>
+          <button class="flex-1 py-2 rounded-full border border-red-500 text-red-500">注册</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 英雄区域 -->
+  <header class="pt-20 md:pt-0 relative h-[80vh] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="https://picsum.photos/id/237/1920/1080" alt="医院环境" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-black/50"></div>
+    </div>
+    <div class="container mx-auto px-4 z-10 text-white text-center">
+      <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold mb-6 leading-tight">便捷高效的医院预约服务</h1>
+      <p class="text-[clamp(1rem,2vw,1.25rem)] mb-8 max-w-2xl mx-auto">无需排队，在线预约，让就医更简单</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button class="px-8 py-3 rounded-full bg-red-500 text-white font-medium hover:bg-red-600 transition-all transform hover:scale-105">
+          立即预约
+        </button>
+        <button class="px-8 py-3 rounded-full bg-white/20 backdrop-blur-sm text-white font-medium hover:bg-white/30 transition-all transform hover:scale-105">
+          了解更多
+        </button>
+      </div>
+    </div>
+    <div class="absolute bottom-0 w-full">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+        <path fill="#f9fafb" fill-opacity="1" d="M0,64L60,69.3C120,75,240,85,360,80C480,75,600,53,720,48C840,43,960,53,1080,69.3C1200,85,1320,107,1380,117.3L1440,128L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z"></path>
+      </svg>
+    </div>
+  </header>
+
+  <!-- 医院简介 -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800 mb-4">关于我们</h2>
+        <p class="text-gray-600 max-w-3xl mx-auto">健康医院是一家综合性三甲医院，拥有先进的医疗设备和专业的医护团队，致力于为患者提供高质量的医疗服务</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-xl shadow-md p-6 transform transition-all hover:-translate-y-2 hover:shadow-lg">
+          <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-user-md text-2xl text-red-500"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">专业医师团队</h3>
+          <p class="text-gray-600">我们拥有一支由经验丰富的专家和医生组成的团队，他们在各自领域具有深厚的专业知识和丰富的临床经验。</p>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-6 transform transition-all hover:-translate-y-2 hover:shadow-lg">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-medkit text-2xl text-blue-500"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">先进医疗设备</h3>
+          <p class="text-gray-600">配备国际领先的医疗设备和技术，确保诊断和治疗的准确性和高效性，为患者提供最优质的医疗体验。</p>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-6 transform transition-all hover:-translate-y-2 hover:shadow-lg">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-heartbeat text-2xl text-green-500"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">贴心服务体验</h3>
+          <p class="text-gray-600">我们致力于为患者提供温馨舒适的就医环境，从预约到诊疗全程提供贴心服务，让患者感受到家一般的关怀。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 科室介绍 -->
+  <section id="departments" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800 mb-4">特色科室</h2>
+        <p class="text-gray-600 max-w-3xl mx-auto">我们拥有多个专业科室，为您提供全方位的医疗服务</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="department-card bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/id/238/400/300" alt="内科" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">内科</h3>
+            <p class="text-gray-600 text-sm">诊断和治疗各种内科疾病，提供专业的医疗建议和治疗方案</p>
+          </div>
+        </div>
+        <div class="department-card bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/id/239/400/300" alt="外科" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">外科</h3>
+            <p class="text-gray-600 text-sm">提供各类外科手术和治疗，包括微创手术和传统手术</p>
+          </div>
+        </div>
+        <div class="department-card bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/id/240/400/300" alt="儿科" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">儿科</h3>
+            <p class="text-gray-600 text-sm">专注于儿童健康，提供儿童保健、疾病预防和治疗服务</p>
+          </div>
+        </div>
+        <div class="department-card bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/id/241/400/300" alt="妇产科" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">妇产科</h3>
+            <p class="text-gray-600 text-sm">提供妇科疾病治疗、孕期保健、分娩和产后护理等服务</p>
+          </div>
+        </div>
+        <div class="department-card bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/id/242/400/300" alt="眼科" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">眼科</h3>
+            <p class="text-gray-600 text-sm">专业的眼科诊疗服务，包括视力矫正、眼病治疗等</p>
+          </div>
+        </div>
+        <div class="department-card bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/id/243/400/300" alt="口腔科" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">口腔科</h3>
+            <p class="text-gray-600 text-sm">提供牙齿美容、口腔疾病治疗、正畸等全方位口腔服务</p>
+          </div>
+        </div>
+        <div class="department-card bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/id/244/400/300" alt="皮肤科" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">皮肤科</h3>
+            <p class="text-gray-600 text-sm">专业诊断和治疗各种皮肤疾病，提供皮肤美容服务</p>
+          </div>
+        </div>
+        <div class="department-card bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/id/245/400/300" alt="中医科" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2">中医科</h3>
+            <p class="text-gray-600 text-sm">融合中医传统理论和现代医学，提供个性化的中医治疗方案</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-10">
+        <button class="px-6 py-3 rounded-full border border-red-500 text-red-500 hover:bg-red-50 transition-colors">
+          查看全部科室 <i class="fa fa-arrow-right ml-2"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 医生团队 -->
+  <section id="doctors" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800 mb-4">专家团队</h2>
+        <p class="text-gray-600 max-w-3xl mx-auto">我们的医生都具有丰富的临床经验和专业知识，致力于为患者提供最佳的医疗服务</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div class="doctor-card bg-white rounded-xl shadow-md overflow-hidden transition-all hover:-translate-y-2 hover:shadow-xl">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1005/400/500" alt="张医生" class="w-full h-64 object-cover">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+              <h3 class="text-white font-semibold text-lg">张医生</h3>
+              <p class="text-white/80 text-sm">心内科主任医师</p>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center mb-3">
+              <div class="flex text-yellow-400">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-half-o"></i>
+              </div>
+              <span class="text-gray-600 text-sm ml-2">4.8 (120条评价)</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">擅长冠心病、心力衰竭、心律失常等心血管疾病的诊断与治疗，拥有20年临床经验。</p>
+            <button class="w-full py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors">
+              预约挂号
+            </button>
+          </div>
+        </div>
+        <div class="doctor-card bg-white rounded-xl shadow-md overflow-hidden transition-all hover:-translate-y-2 hover:shadow-xl">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1006/400/500" alt="李医生" class="w-full h-64 object-cover">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+              <h3 class="text-white font-semibold text-lg">李医生</h3>
+              <p class="text-white/80 text-sm">神经内科主任医师</p>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center mb-3">
+              <div class="flex text-yellow-400">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+              </div>
+              <span class="text-gray-600 text-sm ml-2">5.0 (98条评价)</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">专注于脑血管病、帕金森病、癫痫等神经系统疾病的诊断与治疗，曾发表学术论文30余篇。</p>
+            <button class="w-full py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors">
+              预约挂号
+            </button>
+          </div>
+        </div>
+        <div class="doctor-card bg-white rounded-xl shadow-md overflow-hidden transition-all hover:-translate-y-2 hover:shadow-xl">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1010/400/500" alt="王医生" class="w-full h-64 object-cover">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+              <h3 class="text-white font-semibold text-lg">王医生</h3>
+              <p class="text-white/80 text-sm">骨科主任医师</p>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center mb-3">
+              <div class="flex text-yellow-400">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+              </div>
+              <span class="text-gray-600 text-sm ml-2">4.2 (76条评价)</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">擅长脊柱外科、关节外科和创伤骨科，尤其在腰椎间盘突出症、膝关节置换等方面经验丰富。</p>
+            <button class="w-full py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors">
+              预约挂号
+            </button>
+          </div>
+        </div>
+        <div class="doctor-card bg-white rounded-xl shadow-md overflow-hidden transition-all hover:-translate-y-2 hover:shadow-xl">
+          <div class="relative">
+            <img src="https://picsum.photos/id/1027/400/500" alt="刘医生" class="w-full h-64 object-cover">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+              <h3 class="text-white font-semibold text-lg">刘医生</h3>
+              <p class="text-white/80 text-sm">妇产科主任医师</p>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex items-center mb-3">
+              <div class="flex text-yellow-400">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-half-o"></i>
+              </div>
+              <span class="text-gray-600 text-sm ml-2">4.7 (112条评价)</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">在妇科肿瘤、高危妊娠及妇科内分泌疾病诊治方面有丰富经验，熟练掌握各种妇产科手术。</p>
+            <button class="w-full py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors">
+              预约挂号
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-10">
+        <button class="px-6 py-3 rounded-full border border-red-500 text-red-500 hover:bg-red-50 transition-colors">
+          查看全部医生 <i class="fa fa-arrow-right ml-2"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预约流程 -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800 mb-4">预约流程</h2>
+        <p class="text-gray-600 max-w-3xl mx-auto">简单几步，轻松完成预约</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="process-card text-center">
+          <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+            <i class="fa fa-user-plus text-3xl text-red-500"></i>
+            <span class="absolute -top-2 -right-2 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold">1</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">注册/登录</h3>
+          <p class="text-gray-600">创建个人账号或登录已有账号，完善个人基本信息</p>
+        </div>
+        <div class="process-card text-center">
+          <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+            <i class="fa fa-hospital-o text-3xl text-blue-500"></i>
+            <span class="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">2</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">选择科室和医生</h3>
+          <p class="text-gray-600">根据需求选择合适的科室和医生</p>
+        </div>
+        <div class="process-card text-center">
+          <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+            <i class="fa fa-calendar-check-o text-3xl text-green-500"></i>
+            <span class="absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">3</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">选择日期和时段</h3>
+          <p class="text-gray-600">查看医生出诊时间，选择合适的就诊日期和时间段</p>
+        </div>
+        <div class="process-card text-center">
+          <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6 relative">
+            <i class="fa fa-check-circle-o text-3xl text-purple-500"></i>
+            <span class="absolute -top-2 -right-2 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">4</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">确认预约</h3>
+          <p class="text-gray-600">确认预约信息并提交，系统将发送预约成功通知</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预约表单 -->
+  <section id="appointment" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800 mb-4">在线预约</h2>
+        <p class="text-gray-600 max-w-3xl mx-auto">填写以下信息，预约您的就诊时间</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-4xl mx-auto">
+        <form id="appointmentForm" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="patient_id" class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+              <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入您的姓名" required>
+            </div>
+            <div>
+              <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">手机号码</label>
+              <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入您的手机号码" required>
+            </div>
+            <div>
+              <label for="idCard" class="block text-sm font-medium text-gray-700 mb-1">身份证号</label>
+              <input type="text" id="idCard" name="idCard" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入您的身份证号码" required>
+            </div>
+            <div>
+              <label for="patient_age" class="block text-sm font-medium text-gray-700 mb-1">年龄</label>
+              <input type="number" id="age" name="age" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入您的年龄" required>
+            </div>
+          </div>
+          
+          <div>
+            <label for="department" class="block text-sm font-medium text-gray-700 mb-1">科室</label>
+            <select id="department" name="department" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" required>
+              <option value="">请选择科室</option>
+              <option value="内科">内科</option>
+              <option value="外科">外科</option>
+              <option value="儿科">儿科</option>
+              <option value="妇产科">妇产科</option>
+              <option value="眼科">眼科</option>
+              <option value="口腔科">口腔科</option>
+              <option value="皮肤科">皮肤科</option>
+              <option value="中医科">中医科</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="doctor" class="block text-sm font-medium text-gray-700 mb-1">医生</label>
+            <select id="doctor" name="doctor" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" required>
+              <option value="">请先选择科室</option>
+            </select>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="date" class="block text-sm font-medium text-gray-700 mb-1">就诊日期</label>
+              <input type="date" id="date" name="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" required>
+            </div>
+            <div>
+              <label for="time" class="block text-sm font-medium text-gray-700 mb-1">就诊时段</label>
+              <select id="time" name="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" required>
+                <option value="">请选择时段</option>
+                <option value="上午 08:00-09:00">上午 08:00-09:00</option>
+                <option value="上午 09:00-10:00">上午 09:00-10:00</option>
+                <option value="上午 10:00-11:00">上午 10:00-11:00</option>
+                <option value="上午 11:00-12:00">上午 11:00-12:00</option>
+                <option value="下午 13:30-14:30">下午 13:30-14:30</option>
+                <option value="下午 14:30-15:30">下午 14:30-15:30</option>
+                <option value="下午 15:30-16:30">下午 15:30-16:30</option>
+                <option value="下午 16:30-17:30">下午 16:30-17:30</option>
+              </select>
+            </div>
+          </div>
+          
+          <div>
+            <label for="symptoms" class="block text-sm font-medium text-gray-700 mb-1">症状描述</label>
+            <textarea id="symptoms" name="symptoms" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请简要描述您的症状，帮助医生提前了解您的情况"></textarea>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input id="agree" name="agree" type="checkbox" class="w-4 h-4 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="agree" class="text-gray-600">我已阅读并同意<a href="#" class="text-red-500 hover:underline">《预约服务条款》</a>和<a href="#" class="text-red-500 hover:underline">《隐私政策》</a></label>
+            </div>
+          </div>
+          
+          <div>
+            <button type="submit" class="w-full py-3 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors flex items-center justify-center">
+              <i class="fa fa-calendar-plus-o mr-2"></i> 提交预约
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 常见问题 -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800 mb-4">常见问题</h2>
+        <p class="text-gray-600 max-w-3xl mx-auto">解答您在预约过程中可能遇到的问题</p>
+      </div>
+      <div class="max-w-3xl mx-auto">
+        <div class="space-y-4">
+          <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full px-6 py-4 text-left font-medium flex justify-between items-center hover:bg-gray-50 transition-colors">
+              <span>如何取消已预约的挂号？</span>
+              <i class="fa fa-chevron-down text-gray-500 transition-transform"></i>
+            </button>
+            <div class="faq-answer px-6 py-4 bg-gray-50 hidden">
+              <p class="text-gray-600">您可以在"我的预约"页面找到相应的预约记录，点击"取消预约"按钮即可。请注意，预约前24小时取消不收取任何费用，24小时内取消将收取5元手续费，预约当天取消将收取10元手续费。</p>
+            </div>
+          </div>
+          <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full px-6 py-4 text-left font-medium flex justify-between items-center hover:bg-gray-50 transition-colors">
+              <span>预约成功后需要带什么材料到医院？</span>
+              <i class="fa fa-chevron-down text-gray-500 transition-transform"></i>
+            </button>
+            <div class="faq-answer px-6 py-4 bg-gray-50 hidden">
+              <p class="text-gray-600">请携带预约时使用的身份证原件、医保卡（如有），以及预约成功短信或二维码。儿童就诊需携带户口本或出生证明。</p>
+            </div>
+          </div>
+          <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full px-6 py-4 text-left font-medium flex justify-between items-center hover:bg-gray-50 transition-colors">
+              <span>可以为他人预约挂号吗？</span>
+              <i class="fa fa-chevron-down text-gray-500 transition-transform"></i>
+            </button>
+            <div class="faq-answer px-6 py-4 bg-gray-50 hidden">
+              <p class="text-gray-600">可以，您可以在预约时填写他人的姓名、身份证号和手机号码等信息。但就诊时请确保携带就诊人的有效身份证件。</p>
+            </div>
+          </div>
+          <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full px-6 py-4 text-left font-medium flex justify-between items-center hover:bg-gray-50 transition-colors">
+              <span>预约后可以更改就诊时间吗？</span>
+              <i class="fa fa-chevron-down text-gray-500 transition-transform"></i>
+            </button>
+            <div class="faq-answer px-6 py-4 bg-gray-50 hidden">
+              <p class="text-gray-600">可以，您可以在"我的预约"页面找到相应的预约记录，点击"改期"按钮，选择新的就诊时间。每个预约最多可以更改2次。</p>
+            </div>
+          </div>
+          <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
+            <button class="faq-question w-full px-6 py-4 text-left font-medium flex justify-between items-center hover:bg-gray-50 transition-colors">
+              <span>为什么有些医生的号显示已满？</span>
+              <i class="fa fa-chevron-down text-gray-500 transition-transform"></i>
+            </button>
+            <div class="faq-answer px-6 py-4 bg-gray-50 hidden">
+              <p class="text-gray-600">医生的号源有限，当预约人数达到上限时，系统会显示"已满"。建议您提前预约，或者选择其他时间段或医生。我们会定期释放新的号源，请您关注。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系我们 -->
+  <section id="contact" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800 mb-4">联系我们</h2>
+        <p class="text-gray-600 max-w-3xl mx-auto">如有任何疑问或需要帮助，请随时联系我们</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div class="bg-white rounded-xl shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">联系方式</h3>
+          <div class="space-y-4">
+            <div class="flex items-start">
+              <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-map-marker text-red-500"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">医院地址</h4>
+                <p class="text-gray-600">北京市海淀区健康路123号</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-phone text-red-500"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">咨询电话</h4>
+                <p class="text-gray-600">010-12345678</p>
+                <p class="text-gray-600">010-12345679 (预约专线)</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-envelope text-red-500"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">电子邮箱</h4>
+                <p class="text-gray-600">info@healthhospital.com</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <i class="fa fa-clock-o text-red-500"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">门诊时间</h4>
+                <p class="text-gray-600">周一至周五: 08:00 - 17:30</p>
+                <p class="text-gray-600">周六至周日: 08:30 - 16:30</p>
+                <p class="text-gray-600">法定节假日: 09:00 - 15:00</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8">
+            <h4 class="font-medium mb-4">关注我们</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 bg-[#07C160] rounded-full flex items-center justify-center text-white hover:bg-opacity-80 transition-colors">
+                <i class="fa fa-weixin"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-[#1DA1F2] rounded-full flex items-center justify-center text-white hover:bg-opacity-80 transition-colors">
+                <i class="fa fa-twitter"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-[#FF0000] rounded-full flex items-center justify-center text-white hover:bg-opacity-80 transition-colors">
+                <i class="fa fa-youtube-play"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-[#E4405F] rounded-full flex items-center justify-center text-white hover:bg-opacity-80 transition-colors">
+                <i class="fa fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-4">留言反馈</h3>
+          <form id="feedbackForm" class="space-y-4">
+            <div>
+              <label for="feedbackName" class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+              <input type="text" id="feedbackName" name="feedbackName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入您的姓名" required>
+            </div>
+            <div>
+              <label for="feedbackEmail" class="block text-sm font-medium text-gray-700 mb-1">电子邮箱</label>
+              <input type="email" id="feedbackEmail" name="feedbackEmail" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入您的电子邮箱" required>
+            </div>
+            <div>
+              <label for="feedbackSubject" class="block text-sm font-medium text-gray-700 mb-1">主题</label>
+              <input type="text" id="feedbackSubject" name="feedbackSubject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入留言主题" required>
+            </div>
+            <div>
+              <label for="feedbackMessage" class="block text-sm font-medium text-gray-700 mb-1">留言内容</label>
+              <textarea id="feedbackMessage" name="feedbackMessage" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入您的留言内容" required></textarea>
+            </div>
+            <div>
+              <button type="submit" class="w-full py-3 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors">
+                提交留言
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-6">
+            <i class="fa fa-heartbeat text-red-500 text-2xl"></i>
+            <span class="text-xl font-bold">健康医院</span>
+          </div>
+          <p class="text-gray-400 mb-6">健康医院致力于为患者提供高质量的医疗服务，拥有一流的医疗设备和专业的医护团队。</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-weixin text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-weibo text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-twitter text-xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-youtube-play text-xl"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-6">快速链接</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+            <li><a href="#departments" class="text-gray-400 hover:text-white transition-colors">科室介绍</a></li>
+            <li><a href="#doctors" class="text-gray-400 hover:text-white transition-colors">医生团队</a></li>
+            <li><a href="#appointment" class="text-gray-400 hover:text-white transition-colors">预约挂号</a></li>
+            <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">联系我们</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-6">服务项目</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">普通门诊</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">专家门诊</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">急诊服务</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">体检中心</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">远程会诊</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-6">联系方式</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fa fa-map-marker text-red-500 mt-1 mr-3"></i>
+              <span class="text-gray-400">北京市海淀区健康路123号</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-phone text-red-500 mt-1 mr-3"></i>
+              <span class="text-gray-400">010-12345678</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-envelope text-red-500 mt-1 mr-3"></i>
+              <span class="text-gray-400">info@healthhospital.com</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fa fa-clock-o text-red-500 mt-1 mr-3"></i>
+              <span class="text-gray-400">24小时急诊服务</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
+        <p>&copy; 2025 健康医院 版权所有 | 京ICP备12345678号</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 登录模态框 -->
+  <div id="loginModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 transform transition-all scale-95 opacity-0" id="loginModalContent">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-semibold">用户登录</h3>
+          <button id="closeLoginModal" class="text-gray-400 hover:text-gray-600">
+            <i class="fa fa-times text-xl"></i>
+          </button>
+        </div>
+        <form id="loginForm" class="space-y-4">
+          <div>
+            <label for="loginPhone" class="block text-sm font-medium text-gray-700 mb-1">手机号码</label>
+            <input type="tel" id="loginPhone" name="loginPhone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入手机号码" required>
+          </div>
+          <div>
+            <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-1">密码</label>
+            <input type="password" id="loginPassword" name="loginPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入密码" required>
+          </div>
+          <div class="flex justify-between items-center">
+            <div class="flex items-center">
+              <input id="rememberMe" name="rememberMe" type="checkbox" class="w-4 h-4 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500">
+              <label for="rememberMe" class="ml-2 block text-sm text-gray-700">记住我</label>
+            </div>
+            <a href="#" class="text-sm text-red-500 hover:underline">忘记密码?</a>
+          </div>
+          <div>
+            <button type="submit" class="w-full py-3 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors">
+              登录
+            </button>
+          </div>
+        </form>
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-600">
+            还没有账号? <a href="#" id="showRegisterModal" class="text-red-500 hover:underline">立即注册</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 注册模态框 -->
+  <div id="registerModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 transform transition-all scale-95 opacity-0" id="registerModalContent">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-semibold">用户注册</h3>
+          <button id="closeRegisterModal" class="text-gray-400 hover:text-gray-600">
+            <i class="fa fa-times text-xl"></i>
+          </button>
+        </div>
+        <form id="registerForm" class="space-y-4">
+          <div>
+            <label for="registerName" class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+            <input type="text" id="registerName" name="registerName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入姓名" required>
+          </div>
+          <!-- <div>
+            <label for="registerPhone" class="block text-sm font-medium text-gray-700 mb-1">手机号码</label>
+            <input type="tel" id="registerPhone" name="registerPhone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入手机号码" required>
+          </div>
+          <div>
+            <label for="registerIdCard" class="block text-sm font-medium text-gray-700 mb-1">身份证号</label>
+            <input type="text" id="registerIdCard" name="registerIdCard" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请输入身份证号码" required>
+          </div> -->
+          <div>
+            <label for="registerPassword" class="block text-sm font-medium text-gray-700 mb-1">设置密码</label>
+            <input type="password" id="registerPassword" name="registerPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请设置密码" required>
+          </div>
+          <div>
+            <label for="registerConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">确认密码</label>
+            <input type="password" id="registerConfirmPassword" name="registerConfirmPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="请再次输入密码" required>
+          </div>
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input id="registerAgree" name="registerAgree" type="checkbox" class="w-4 h-4 border border-gray-300 rounded focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="registerAgree" class="text-gray-600">我已阅读并同意<a href="#" class="text-red-500 hover:underline">《用户服务协议》</a>和<a href="#" class="text-red-500 hover:underline">《隐私政策》</a></label>
+            </div>
+          </div>
+          <div>
+            <button type="submit" class="w-full py-3 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors">
+              注册
+            </button>
+          </div>
+        </form>
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-600">
+            已有账号? <a href="#" id="showLoginModal" class="text-red-500 hover:underline">立即登录</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 预约成功提示 -->
+  <div id="appointmentSuccess" class="fixed bottom-8 right-8 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-500 z-50 flex items-center">
+    <i class="fa fa-check-circle text-2xl mr-3"></i>
+    <div>
+      <h4 class="font-medium">预约成功</h4>
+      <p class="text-sm">预约信息已发送至您的手机</p>
+    </div>
+  </div>
+</body>
+</html>  
