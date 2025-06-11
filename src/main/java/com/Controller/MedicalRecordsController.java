@@ -21,7 +21,7 @@ public class MedicalRecordsController {
      */
     @PostMapping("/search")
     public Result getMedicalRecords(@RequestBody(required = false) MedicalRecordDTO medicalRecordDTO) {
-        log.info("查询药品,查询条件为:{}", medicalRecordDTO);
+        log.info("查询药历,查询条件为:{}", medicalRecordDTO);
         return medicalRecordsServiceImpl.getMedicalRecords(medicalRecordDTO);
     }
 
@@ -32,7 +32,7 @@ public class MedicalRecordsController {
      */
     @PostMapping
     public Result addMedicalRecord(@RequestBody MedicalRecordDTO medicalRecordDTO) {
-        log.info("添加药品:{}", medicalRecordDTO);
+        log.info("添加药历:{}", medicalRecordDTO);
         return medicalRecordsServiceImpl.addMedicalRecords(medicalRecordDTO);
     }
 
@@ -43,7 +43,7 @@ public class MedicalRecordsController {
      */
     @DeleteMapping("/{medicalRecordId}")
     public Result deleteMedicalRecord(@PathVariable String medicalRecordId) {
-        log.info("根据Id:{},删除药品", medicalRecordId);
+        log.info("根据Id:{},删除药历", medicalRecordId);
         return medicalRecordsServiceImpl.deleteMedicalRecords(medicalRecordId);
     }
 
@@ -55,18 +55,18 @@ public class MedicalRecordsController {
      */
     @PutMapping("/{medicalRecordId}")
     public Result updateMedicalRecord(@PathVariable String medicalRecordId,@RequestBody MedicalRecordDTO medicalRecordDTO) {
-        log.info("根据Id:{},更改药品:{}", medicalRecordId, medicalRecordDTO);
+        log.info("根据Id:{},更改病历:{}", medicalRecordId, medicalRecordDTO);
         return medicalRecordsServiceImpl.updateMedicalRecords(medicalRecordId,medicalRecordDTO);
     }
 
     /**
-     * 根据Id查询药品
+     * 根据Id查询病历
      * @param medicalRecordId
      * @return
      */
     @GetMapping("/{medicalRecordId}")
     public Result getMedicalRecordById(@PathVariable String medicalRecordId) {
-        log.info("根据Id：:{} 查询药品", medicalRecordId);
+        log.info("根据Id：:{} 查询病历", medicalRecordId);
         return medicalRecordsServiceImpl.getMedicalRecordById(medicalRecordId);
     }
 }

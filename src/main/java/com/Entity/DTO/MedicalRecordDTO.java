@@ -2,6 +2,7 @@ package com.Entity.DTO;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,7 +12,7 @@ public class MedicalRecordDTO {
     private String patientName; // 患者姓名（冗余字段）
     private String doctorId; // 医生ID
     private String doctorName; // 医生姓名（冗余字段）
-    private LocalDateTime recordDate; // 记录日期
+    private LocalDate recordDate; // 记录日期
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String symptoms; // 症状描述
