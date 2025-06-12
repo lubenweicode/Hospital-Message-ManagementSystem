@@ -26,4 +26,7 @@ public interface DoctorsMapper {
      */
     @Select("SELECT * FROM doctors where doctor_id=#{doctorId}")
     DoctorVO getDoctorById(String doctorId);
+
+    @Select("SELECT * FROM on_duty_doctors;")
+    Integer count();
 }

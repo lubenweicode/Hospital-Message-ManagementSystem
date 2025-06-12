@@ -21,4 +21,7 @@
     <select id="getMedicines" resultType="com.Entity.VO.MedicineVO">
         call getMedicines(#{medicineName},#{medicineCategory},#{medicineStatus});
     </select>
+<!--    <select id="count" resultType="java.lang.Integer">-->
+<!--        call countMedicine()-->
+<!--    </select>-->
 </mapper>

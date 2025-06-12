@@ -40,4 +40,6 @@ public interface patientsService {
      * @return
      */
     Result getPatientsById(String patientId);
+
+    Result countPatients();
 }

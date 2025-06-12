@@ -13,8 +13,8 @@ public class MedicalRecordDTO {
     private String doctorId; // 医生ID
     private String doctorName; // 医生姓名（冗余字段）
     private LocalDate recordDate; // 记录日期
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDate startTime;
+    private LocalDate endTime;
     private String symptoms; // 症状描述
     private String diagnosis; // 诊断结果
     private String treatmentPlan; // 治疗方案

@@ -70,4 +70,9 @@ public class AppointmentsController {
         log.info("根据Id:{} 查询预约", appointmentId);
         return appointmentServiceImpl.getAppointmentById(appointmentId);
     }
+
+    @GetMapping("/count")
+    public Result getAppointmentCount() {
+        return appointmentServiceImpl.count();
+    }
 }

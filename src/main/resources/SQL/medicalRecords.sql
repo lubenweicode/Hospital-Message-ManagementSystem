@@ -8,7 +8,7 @@ begin
         set p_medications=null;
     end if;
     insert into medical_records (patient_id,patient_name, doctor_id,doctor_name, record_date, symptoms, diagnosis, treatment_plan, medications,record_status) values
-    (p_patient_id,p_patient_name,p_doctor_id,p_doctor_name,p_record_date,p_symptoms,p_diagnosis,p_treatment_plan,p_treatment_plan
+    (p_patient_id,p_patient_name,p_doctor_id,p_doctor_name,p_record_date,p_symptoms,p_diagnosis,p_treatment_plan,p_medications
     ,p_record_status);
 end //
 
@@ -66,20 +66,14 @@ begin
     if(p_doctor_name='')then
         set p_doctor_name=null;
     end if;
-    if(p_record_status!=1 or p_record_status!=0)then
+    if(p_record_status not in (0,1,2))then
         set p_record_status=null;
-    end if;
-    if(p_start_time is null)then
-        set p_start_time=null;
-    end if;
-    if(p_end_time is null)then
-        set p_end_time=null;
     end if;
 
     select * from medical_records where (p_patient_name is null or patient_name=p_patient_name) and
                                         (p_doctor_name is null or doctor_name=p_doctor_name) and
                                         (p_record_status is null or record_status=p_record_status) and
-                                        (p_start_time is null or start_time=p_start_time) and
-                                        (p_end_time is null or end_time=p_end_time);
+                                        (p_start_time is null or p_start_time<=record_date) and
+                                        (p_end_time is null or p_end_time<=record_date);
 
 end //

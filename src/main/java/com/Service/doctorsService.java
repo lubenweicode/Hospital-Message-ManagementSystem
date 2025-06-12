@@ -17,4 +17,6 @@ public interface doctorsService {
     Result updateDoctor(String dotorId, DoctorDTO doctorDTO);
 
     Result getDoctorById(String doctorId);
+
+    Result count();
 }

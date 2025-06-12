@@ -71,4 +71,14 @@ public class DoctorsController {
         log.info("根据Id:{} 查询医生",doctorId);
         return doctorsService.getDoctorById(doctorId);
     }
+
+    /**
+     * 统计在班医生数量
+     * @return
+     */
+    @GetMapping("/count")
+    public Result getDoctorCount() {
+        log.info("统计在班医生数量");
+        return doctorsService.count();
+    }
 }
