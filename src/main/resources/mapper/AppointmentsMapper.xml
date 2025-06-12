@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Mapper.AppointmentsMapper">
     <insert id="insert">
-        call addAppointment(#{patientId},#{appointmentTime},#{doctorId},#{appointmentStatus},#{symptoms})
+        call addAppointment(#{patientId},#{doctorId},#{appointmentTime},#{appointmentStatus},#{symptoms})
     </insert>
     <update id="update">
         call updateAppointment(#{appointmentId},#{patientId},#{doctorId},#{appointmentStatus},#{symptoms})

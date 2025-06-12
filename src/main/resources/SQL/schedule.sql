@@ -1,5 +1,5 @@
+# 查询医生的排班信息
 DELIMITER $$
-
 CREATE PROCEDURE getSchedules(
     IN p_doctorName VARCHAR(255),
     IN p_startDate DATE,
@@ -26,15 +26,7 @@ CREATE PROCEDURE addSchedule(
 )
 BEGIN
     -- 插入排班记录
-    INSERT INTO schedules (
-        doctor_id,
-        schedule_date,
-        schedule_time,
-        max_patients,
-        schedule_status,
-        create_time,
-        current_patients
-    )
+    INSERT INTO schedules (doctor_id,schedule_date,schedule_time,max_patients,schedule_status,create_time,current_patients)
     VALUES (
                p_doctorId,
                p_startDate,
@@ -46,7 +38,7 @@ BEGIN
            );
 END$$
 DELIMITER ;
-
+# 删除排班
 delimiter //
 create procedure deleteSchedules(in p_s_id varchar(50))
 begin
@@ -54,7 +46,7 @@ begin
     update appointments set appointment_status=3 where schedule_id=p_s_id;
 end //
 delimiter ;
-
+# 更新排班
 DELIMITER $$
 CREATE PROCEDURE updateSchedule(
     IN p_scheduleId varchar(50),
@@ -69,7 +61,7 @@ BEGIN
     UPDATE schedules
     SET
         doctor_id = p_doctorId,
-        schedules.schedule_date = p_startDate,
+        schedule_date = p_startDate,
         schedule_time = p_scheduleTime,
         max_patients = p_maxPatients,
         schedule_status = p_scheduleStatus

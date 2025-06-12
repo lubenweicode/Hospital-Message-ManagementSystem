@@ -1,13 +1,27 @@
 # 添加预约
 delimiter //
-create procedure addAppointment(in p_patient_id varchar(50),in p_doctor_id varchar(50),in p_appointment_status tinyint,in p_appointment_symptoms varchar(255))
+create procedure addAppointment(in p_patient_id varchar(50),in p_doctor_id varchar(50),in app_time date,in p_appointment_status tinyint,in p_appointment_symptoms varchar(255))
 begin
-    declare t_schedule_id varchar(50);
-    select schedule_id into t_schedule_id from schedules where  doctor_id=p_doctor_id;
-    insert into appointments (patient_id, doctor_id, schedule_id, appointment_status, symptoms) values
-    (p_patient_id,p_doctor_id,t_schedule_id,p_appointment_status,p_appointment_symptoms);
 
-    update schedules set current_patients=current_patients+1 where t_schedule_id=schedule_id;
+    declare t_schedule_id varchar(50);
+    declare t_current_patients int;
+    declare t_max_patients int;
+    declare t_schedule_status tinyint;
+    declare t_d_name varchar(50);
+    declare t_p_name varchar(50);
+    # 查询当前排班的ID
+    select schedule_id,current_patients,max_patients,schedule_status into t_schedule_id,t_current_patients,t_max_patients,t_schedule_status from schedules where doctor_id=p_doctor_id LIMIT 1;
+    # 检查是否该排班是否满人
+    if(t_current_patients<t_max_patients and t_schedule_status!=0)then
+        select patient_name into t_p_name from patients where patient_id=p_patient_id;
+        select doctor_name into t_d_name from doctors where doctor_id=p_doctor_id;
+
+        # 向appointment表中插入数据
+        insert into appointments (patient_id, doctor_id,doctor_name,patient_name,appointment_time,schedule_id, appointment_status, symptoms) values
+            (p_patient_id,p_doctor_id,t_d_name,t_p_name,app_time,t_schedule_id,p_appointment_status,p_appointment_symptoms);
+        # 更新该条排班的当前患者数+1
+        update schedules set current_patients = current_patients + 1 where schedule_id = t_schedule_id;
+    end if;
 end //
 
 delimiter //
@@ -23,7 +37,6 @@ end //
 # 删除预约
 # 如果预约未完成,医生的当前排班预约数-1
 DELIMITER $$
-
 CREATE PROCEDURE `delAppointment`(IN p_id VARCHAR(50))
 BEGIN
     DECLARE t_app_status TINYINT;
@@ -100,13 +113,13 @@ BEGIN
         WHERE doctor_id = p_doctor_id
         LIMIT 1;
 
-        -- 检查新排班是否存在
+        # 检查新排班是否存在
         IF t_schedule_id IS NULL THEN
             SIGNAL SQLSTATE '45000'
                 SET MESSAGE_TEXT = '指定医生的排班不存在';
         END IF;
 
-        -- 更新预约的排班ID
+        # 更新预约的排班ID
         UPDATE appointments
         SET schedule_id = t_schedule_id
         WHERE appointment_id = p_appointment_id;
