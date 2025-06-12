@@ -9,7 +9,7 @@
 
 后端:JavaSE、SpringWeb、SpringMVC、SpringBoot
 
-前端:html、css、jsaxios、RestfulAPI
+前端:html、css、js、axios、RestfulAPI
 
 数据库:MySQL
 
