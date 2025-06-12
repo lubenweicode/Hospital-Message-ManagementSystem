@@ -1,0 +1,114 @@
+@layer utilities {
+  .content-auto {
+    content-visibility: auto;
+  }
+  .sidebar-expanded {
+    transform: translateX(0);
+  }
+  .sidebar-collapsed {
+    transform: translateX(-100%);
+  }
+  .submenu-enter {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+  .submenu-enter-active {
+    max-height: 500px;
+    opacity: 1;
+    transition: max-height 500ms ease-in-out, opacity 300ms ease-in-out;
+  }
+  .submenu-exit {
+    max-height: 500px;
+    opacity: 1;
+  }
+  .submenu-exit-active {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 500ms ease-in-out, opacity 300ms ease-in-out;
+  }
+  .modal-enter {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  .modal-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 300ms, transform 300ms;
+  }
+  .modal-exit {
+    opacity: 1;
+  }
+  .modal-exit-active {
+    opacity: 0;
+    transition: opacity 300ms;
+  }
+  .operation-in {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+  .operation-out {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+  .operation-return {
+    background-color: #e0e7ff;
+    color: #4338ca;
+  }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* 动画效果 */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* 表格样式 */
+.table-hover tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* 表单错误提示 */
+.error-message {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* 加载动画 */
+.loading-spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 3px solid #3B82F6;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 操作类型样式 */
+.operation-in {
+  background-color: #dcfce7;
+  color: #166534;
+}
+.operation-out {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+.operation-return {
+  background-color: #e0e7ff;
+  color: #4338ca;
+}  
