@@ -73,9 +73,19 @@ public class MedicineController {
         return medicinesServiceImpl.getmedicineById(medicineId);
     }
 
+    /**
+     * 扣减库存
+     * @param orderDTO
+     * @return
+     */
     @PostMapping("/order")
     public Result orderMedicines(@RequestBody OrderDTO orderDTO){
-        log.info("正在下单:{}",orderDTO);
+        log.info("扣减库存:{}",orderDTO);
         return medicinesServiceImpl.orderMedicines(orderDTO);
+    }
+
+    @GetMapping("/count")
+    public Result getMedicineCount(){
+        return medicinesServiceImpl.count();
     }
 }

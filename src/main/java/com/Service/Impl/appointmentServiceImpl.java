@@ -2,6 +2,7 @@ package com.Service.Impl;
 
 import com.Common.Result;
 import com.Entity.DTO.AppointmentDTO;
+import com.Entity.DTO.CountDTO;
 import com.Entity.Pojo.Appointment;
 import com.Entity.VO.AppointmentVO;
 import com.Mapper.AppointmentsMapper;
@@ -117,6 +118,18 @@ public class appointmentServiceImpl implements appointmentService {
             result.setMsg(MSG_SELECT_APPOINTMENT_FAILED);
             result.setData(appointment);
         }
+        return result;
+    }
+
+    @Override
+    public Result count() {
+        Result result = new Result();
+        Integer i = appointmentMapper.count();
+        CountDTO countDTO = new CountDTO();
+        countDTO.setCount(i);
+        result.setCode(1);
+        result.setMsg("统计已完成预约数成功");
+        result.setData(countDTO);
         return result;
     }
 }

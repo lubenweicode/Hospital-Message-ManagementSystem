@@ -21,4 +21,7 @@ public interface PatientsMapper {
 
     @Select("select * from patients where patient_id=#{patientId}")
     Patient getPatientById(String patientId);
+
+    @Select("SELECT * FROM in_hospital_patients")
+    Integer count();
 }

@@ -72,4 +72,9 @@ public class PatientsController {
         log.info("根据Id:{},查询患者信息", patientId);
         return patientsServiceImpl.getPatientsById(patientId);
     }
+
+    @GetMapping("/count")
+    public Result getPatientCount() {
+        return patientsServiceImpl.countPatients();
+    }
 }

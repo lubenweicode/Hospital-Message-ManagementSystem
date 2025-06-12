@@ -13,7 +13,7 @@
         #{patientPhone},
         #{patientIdCard},
         #{patientAllergy},
-        #{patientHistory},
+        #{patientHistory},#{patientAge},#{patientCase},
         #{patientId, mode=OUT, jdbcType=VARCHAR}
         )}
     </insert>
@@ -42,6 +42,9 @@
     <select id="getPatients" statementType="CALLABLE" resultType="com.Entity.DTO.PatientDTO">
         call getPatient(#{patientName},#{patientPhone},#{patientCase})
     </select>
+<!--    <select id="count" resultType="java.lang.Integer">-->
+<!--        call countPatient()-->
+<!--    </select>-->
 
 
 </mapper>

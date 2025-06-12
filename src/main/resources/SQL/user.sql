@@ -22,7 +22,8 @@ CREATE PROCEDURE updateUser(
     IN p_username VARCHAR(255),
     IN p_password VARCHAR(255),
     IN p_private VARCHAR(255),
-    IN p_status VARCHAR(255)
+    IN p_status VARCHAR(255),
+    IN p_phone VARCHAR(50)
 )
 BEGIN
     UPDATE users
@@ -31,7 +32,8 @@ BEGIN
         user_username = IFNULL(p_username, user_username),
         user_password = IFNULL(p_password, user_password),
         user_private = IFNULL(p_private, user_private),
-        user_status = IFNULL(p_status, user_status)
+        user_status = IFNULL(p_status, user_status),
+        user_phone = IFNULL(p_phone,user_phone)
     WHERE user_id = p_userId;
 END$$
 

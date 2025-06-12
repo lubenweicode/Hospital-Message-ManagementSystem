@@ -15,5 +15,8 @@
     <select id="select" resultType="com.Entity.VO.AppointmentVO">
         call getAppointment(#{patientName},#{doctorName},#{appointmentStatus})
     </select>
+<!--    <select id="count" resultType="java.lang.Integer">-->
+<!--        call countAppointment()-->
+<!--    </select>-->
 
 </mapper>

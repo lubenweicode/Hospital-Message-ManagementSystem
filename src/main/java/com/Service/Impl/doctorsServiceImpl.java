@@ -1,6 +1,7 @@
 package com.Service.Impl;
 
 import com.Common.Result;
+import com.Entity.DTO.CountDTO;
 import com.Entity.DTO.DoctorDTO;
 import com.Entity.Pojo.Doctor;
 import com.Entity.VO.DoctorVO;
@@ -113,6 +114,22 @@ public class doctorsServiceImpl implements doctorsService {
             result.setMsg(MSG_SELECT_DOCTOR_FAILED );
             result.setData(doctor);
         }
+        return result;
+    }
+
+    /**
+     * 统计在班医生数量
+     * @return
+     */
+    @Override
+    public Result count() {
+        Result result = new Result();
+        Integer count = doctorsMapper.count();
+        CountDTO countDTO = new CountDTO();
+        countDTO.setCount(count);
+        result.setCode(1);
+        result.setMsg("统计在班医生数量成功");
+        result.setData(countDTO);
         return result;
     }
 }

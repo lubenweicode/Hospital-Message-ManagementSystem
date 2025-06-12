@@ -24,8 +24,7 @@
     </select>
     <!--更新用户-->
     <update id="updateUser" >
-        call updateUser(#{userId},#{userDisplayName},#{userUsername},#{userPassword}
-             #{userPrivate},#{userStatus})
+        call updateUser(#{userId},#{userDisplayName},#{userUsername},#{userPassword},#{userPrivate},#{userPhone},#{userStatus})
     </update>
 
 </mapper>

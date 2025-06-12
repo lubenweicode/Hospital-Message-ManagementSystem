@@ -1,6 +1,7 @@
 package com.Service.Impl;
 
 import com.Common.Result;
+import com.Entity.DTO.CountDTO;
 import com.Entity.DTO.PatientDTO;
 import com.Entity.Pojo.Patient;
 import com.Mapper.PatientsMapper;
@@ -125,6 +126,18 @@ public class patientsServiceImpl implements patientsService {
             result.setMsg(MSG_SELECT_PATIENTS_SUCCESS);
             result.setData(patient);
         }
+        return result;
+    }
+
+    @Override
+    public Result countPatients() {
+        Result result = new Result();
+        Integer i = patientsMapper.count();
+        CountDTO count = new CountDTO();
+        count.setCount(i);
+        result.setCode(1);
+        result.setMsg("统计在院患者成功");
+        result.setData(count);
         return result;
     }
 }

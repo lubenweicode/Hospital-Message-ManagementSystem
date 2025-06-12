@@ -25,4 +25,6 @@
     <select id="getDoctors" resultType="com.Entity.VO.DoctorVO">
         CALL getDoctors(#{doctorName},#{deptId},#{doctorTitle})
     </select>
+
+
 </mapper>

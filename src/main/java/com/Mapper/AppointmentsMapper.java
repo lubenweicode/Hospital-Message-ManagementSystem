@@ -48,4 +48,7 @@ public interface AppointmentsMapper {
      */
     @Select("SELECT * FROM appointments where appointment_id=#{appointmentId}")
     Appointment getAppointmentById(String appointmentId);
+
+    @Select("SELECT * FROM today_appointments")
+    Integer count();
 }

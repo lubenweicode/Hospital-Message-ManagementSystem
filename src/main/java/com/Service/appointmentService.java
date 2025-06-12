@@ -42,4 +42,6 @@ public interface appointmentService {
      * @return
      */
     Result getAppointmentById(String appointmentId);
+
+    Result count();
 }
