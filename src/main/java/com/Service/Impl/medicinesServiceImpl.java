@@ -2,6 +2,7 @@ package com.Service.Impl;
 
 
 import com.Common.Result;
+import com.Entity.DTO.CountDTO;
 import com.Entity.DTO.MedicineDTO;
 import com.Entity.DTO.OrderDTO;
 import com.Entity.Pojo.Medicine;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.Common.ComCount.MEDICINE_COUNT_SUCCESS;
 import static com.Common.ComMedicine.*;
 
 @Service
@@ -24,6 +26,8 @@ public class medicinesServiceImpl implements medicinesService {
 
     @Autowired
     public MedicinesMapper MedicinesMapper;
+    @Autowired
+    private MedicinesMapper medicinesMapper;
 
     @Override
     public Result addMedicines(Medicine medicine) {
@@ -135,16 +139,28 @@ public class medicinesServiceImpl implements medicinesService {
         params.put("success", orderDTO.getSuccess());
         MedicinesMapper.order(params);
         if((Integer)params.get("success") == 1){
-            log.info("下单成功,{}:",orderDTO);
+            log.info("扣减库存成功,{}:",orderDTO);
             result.setCode(1);
-            result.setMsg("下单成功");
+            result.setMsg("扣减库存成功");
             result.setData(orderDTO);
         }else{
-            log.info("下单失败,{}:",params.get("success"));
+            log.info("扣减库存失败,{}:",params.get("success"));
             result.setCode(0);
-            result.setMsg("下单失败");
+            result.setMsg("扣减库存失败");
             result.setData(orderDTO);
         }
+        return result;
+    }
+
+    @Override
+    public Result count() {
+        Result result = new Result();
+        Integer i = medicinesMapper.count();
+        CountDTO countDTO = new CountDTO();
+        countDTO.setCount(i);
+        result.setCode(1);
+        result.setMsg(MEDICINE_COUNT_SUCCESS);
+        result.setData(countDTO);
         return result;
     }
 }

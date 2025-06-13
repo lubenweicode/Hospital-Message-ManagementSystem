@@ -1,3 +1,7 @@
+-- 用户表主键索引
+ALTER TABLE users
+    ADD PRIMARY KEY (user_id);
+
 DELIMITER $$
 # 条件查询用户
 CREATE PROCEDURE getUsers(

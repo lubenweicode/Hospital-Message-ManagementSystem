@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.Common.ComCount.DOCTOR_COUNT_SUCCESS;
 import static com.Common.ComPatientDoctor.*;
 
 @Slf4j
@@ -128,7 +129,7 @@ public class doctorsServiceImpl implements doctorsService {
         CountDTO countDTO = new CountDTO();
         countDTO.setCount(count);
         result.setCode(1);
-        result.setMsg("统计在班医生数量成功");
+        result.setMsg(DOCTOR_COUNT_SUCCESS);
         result.setData(countDTO);
         return result;
     }

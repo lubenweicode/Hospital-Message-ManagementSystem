@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.Common.ComCount.APPOINTMENT_COUNT_SUCCESS;
 import static com.Common.ComScheduleAppointment.*;
 
 @Service
@@ -128,7 +129,7 @@ public class appointmentServiceImpl implements appointmentService {
         CountDTO countDTO = new CountDTO();
         countDTO.setCount(i);
         result.setCode(1);
-        result.setMsg("统计已完成预约数成功");
+        result.setMsg(APPOINTMENT_COUNT_SUCCESS);
         result.setData(countDTO);
         return result;
     }
