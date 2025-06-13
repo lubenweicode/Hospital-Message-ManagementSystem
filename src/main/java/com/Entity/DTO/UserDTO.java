@@ -17,7 +17,7 @@ public class UserDTO {
     private String userDisplayName;
     private String userUsername;
     private String userPassword;
-    private Integer userStatus;
+    private Integer userStatus=1;
     private String userPhone;
     private String userPrivate="1";
 

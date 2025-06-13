@@ -1,4 +1,7 @@
-use hospital;
+-- 科室表主键索引
+ALTER TABLE departments
+    ADD PRIMARY KEY (dept_id);
+
 delimiter //
 # 查询部门
 # 要求:实现动态化查询

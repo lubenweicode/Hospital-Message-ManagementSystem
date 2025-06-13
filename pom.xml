@@ -18,13 +18,6 @@
     </properties>
 
     <dependencies>
-        <!-- ❌ 错误依赖：删除 web-services -->
-        <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web-services</artifactId>
-        </dependency> -->
-
-        <!-- ✅ 正确依赖：添加 web 核心依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

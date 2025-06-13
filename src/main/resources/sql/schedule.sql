@@ -1,10 +1,16 @@
+-- 排班表主键索引
+ALTER TABLE schedules
+    ADD PRIMARY KEY (schedule_id);
+
+
 # 查询医生的排班信息
 DELIMITER $$
 CREATE PROCEDURE getSchedules(
     IN p_doctorName VARCHAR(255),
     IN p_startDate DATE,
     IN p_endDate DATE,
-    IN p_scheduleStatus VARCHAR(50)
+    IN p_scheduleStatus VARCHAR(50),
+    IN p_scheduleTime INT
 )
 BEGIN
     SELECT *
@@ -12,7 +18,8 @@ BEGIN
     WHERE (p_doctorName IS NULL OR doctor_name = p_doctorName)
       AND (p_startDate IS NULL OR schedule_date >= p_startDate)
       AND (p_endDate IS NULL OR schedule_date <= p_endDate)
-      AND (p_scheduleStatus IS NULL OR schedule_status = p_scheduleStatus);
+      AND (p_scheduleStatus IS NULL OR schedule_status = p_scheduleStatus)
+      AND (p_scheduleTime IS NULL OR schedule_time = p_scheduleTime);
 END$$
 
 DELIMITER $$
@@ -42,10 +49,13 @@ DELIMITER ;
 delimiter //
 create procedure deleteSchedules(in p_s_id varchar(50))
 begin
+
+    # 删除排班
+    # 该排班下有预约不能被删除
     delete from schedules where schedule_id=p_s_id;
-    update appointments set appointment_status=3 where schedule_id=p_s_id;
 end //
 delimiter ;
+
 # 更新排班
 DELIMITER $$
 CREATE PROCEDURE updateSchedule(
@@ -64,6 +74,7 @@ BEGIN
         schedule_date = p_startDate,
         schedule_time = p_scheduleTime,
         max_patients = p_maxPatients,
+        current_patients = 0,
         schedule_status = p_scheduleStatus
     WHERE
         schedule_id = p_scheduleId; -- 条件：根据排班ID更新（需替换为实际主键字段）

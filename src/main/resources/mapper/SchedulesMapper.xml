@@ -5,7 +5,7 @@
 
 
     <select id="getSchedules" resultType="com.Entity.DTO.ScheduleDTO">
-        call getSchedules(#{doctorId},#{startDate},#{endDate},#{scheduleStatus})
+        call getSchedules(#{doctorId},#{startDate},#{endDate},#{scheduleStatus},#{scheduleTime})
     </select>
 
     <insert id="insertSchedule">

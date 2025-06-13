@@ -37,7 +37,7 @@ public class User {
     private String userPhone; // 联系电话
 
     @Column(name = "user_status", nullable = true, columnDefinition = "TINYINT DEFAULT 1")
-    private Integer userStatus; // 用户状态（0: 禁用，1: 启用）
+    private Integer userStatus=1; // 用户状态（0: 禁用，1: 启用）
 
     @Column(name = "create_time", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createTime; // 创建时间（自动填充）

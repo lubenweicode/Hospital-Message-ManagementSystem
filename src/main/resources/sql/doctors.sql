@@ -19,41 +19,10 @@ create table doctors(
                         FOREIGN KEY (`doctor_dept_id`) REFERENCES departments(`dept_id`)
 )comment '医生表';
 
--- 预约与排班管理
-CREATE TABLE schedules (
-                           schedule_id int AUTO_INCREMENT PRIMARY KEY COMMENT '排班ID（主键），自增',
-                           doctor_id int,  -- 修改为int类型
-                           schedule_date date COMMENT '排班日期',
-                           schedule_time varchar(20) COMMENT '时间段,如 "上午"、"下午"、"晚上"',
-                           max_patients int DEFAULT 30 COMMENT '最大预约数,默认30人',
-                           current_patients int DEFAULT 0 COMMENT '已预约数,默认0',
-                           schedule_status tinyint DEFAULT 1 COMMENT '排班状态,0: 取消 1: 正常（默认）',
-                           create_time datetime COMMENT '创建时间',
-                           FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
-)comment '排班表';
--- 医生科室变更历史表
-CREATE TABLE doctor_dept_history (
-                                     history_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '变更记录ID',
-                                     doctor_id int COMMENT '医生ID',
-                                     old_dept_id VARCHAR(20) COMMENT '原科室ID',
-                                     new_dept_id VARCHAR(20) COMMENT '新科室ID',
-                                     change_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '变更时间',
-                                     FOREIGN KEY (doctor_id) REFERENCES doctors(doctor_id)
-) COMMENT '医生科室变更历史表';
 
-create table appointments(
-                             appointment_id varchar(50) PRIMARY KEY comment '预约 ID',
-                             patient_id varchar(50) comment '患者 ID',
-                             doctor_id varchar(50) comment '医生 ID',
-                             schedule_id int comment '排班 ID',
-                             appointment_time datetime comment '预约时间',
-                             symptoms varchar(200) comment '症状描述',
-                             appointment_status tinyint DEFAULT 3 comment '预约状态,0: 已取消 1: 待就诊 2: 已完成 3: 已爽约',
-                             create_time datetime comment '创建时间',
-                             FOREIGN KEY (`patient_id`) REFERENCES patients(`patient_id`),
-                             FOREIGN KEY (`doctor_id`) REFERENCES doctors(`doctor_id`),
-                             FOREIGN KEY (`schedule_id`) REFERENCES schedules(`schedule_id`)
-)comment '预约表';
+-- 医生表主键索引
+ALTER TABLE doctors
+    ADD PRIMARY KEY (doctor_id);
 
 ALTER TABLE departments ADD COLUMN dept_address VARCHAR(200) COMMENT '科室地址';
 ALTER TABLE schedules ADD COLUMN dept_id VARCHAR(20) COMMENT '科室ID';
@@ -89,24 +58,6 @@ END IF;
     -- 插入新科室记录
 INSERT INTO departments (dept_id, dept_name, dept_head)
 VALUES (p_dept_id, p_dept_name, p_dept_head);
-END //
-DELIMITER ;
-
---  更新科室地址
-DELIMITER //
-CREATE PROCEDURE sp_UpdateDeptAddress(
-    IN p_dept_id VARCHAR(50),
-    IN p_new_address VARCHAR(200)
-)
-BEGIN
-UPDATE departments
-SET dept_address = p_new_address
-WHERE dept_id = p_dept_id;
--- 检查是否更新成功
-IF ROW_COUNT() = 0 THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = '未找到对应的科室记录，更新失败';
-END IF;
 END //
 DELIMITER ;
 -- 添加医生

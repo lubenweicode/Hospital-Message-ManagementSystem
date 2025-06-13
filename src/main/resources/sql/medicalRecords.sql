@@ -1,3 +1,7 @@
+-- 病历表主键索引
+ALTER TABLE medical_records
+    ADD PRIMARY KEY (record_id);
+
 # 添加病历
 delimiter //
 create procedure addMedicalRecords(IN p_patient_id varchar(50),IN p_patient_name varchar(50),in p_doctor_id varchar(50),IN p_doctor_name varchar(50),in p_record_date datetime,in p_symptoms varchar(255),

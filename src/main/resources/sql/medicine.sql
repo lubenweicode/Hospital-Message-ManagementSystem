@@ -1,3 +1,7 @@
+-- 药品表主键索引
+ALTER TABLE medicines
+    ADD PRIMARY KEY (medicine_id);
+
 # 查询药品
 delimiter //
 create procedure getMedicines(in p_medicineName varchar(50),in p_medicineCategory varchar(50),in p_medicineStatus tinyint)

@@ -1,3 +1,7 @@
+-- 预约表主键索引
+ALTER TABLE appointments
+    ADD PRIMARY KEY (appointment_id);
+
 # 添加预约
 delimiter //
 create procedure addAppointment(in p_patient_id varchar(50),in p_doctor_id varchar(50),in app_time date,in p_appointment_status tinyint,in p_appointment_symptoms varchar(255))
@@ -23,7 +27,6 @@ begin
         update schedules set current_patients = current_patients + 1 where schedule_id = t_schedule_id;
     end if;
 end //
-
 delimiter //
 create procedure getAppointment(in p_patient_name varchar(50),in p_doctor_name varchar(50),in p_app_status tinyint)
 begin

@@ -16,46 +16,14 @@ CREATE TABLE patients (
                           update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 );
 
--- 创建预约表
-CREATE TABLE appointments (
-                              appointment_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '预约ID',
-                              patient_id VARCHAR(50) NOT NULL COMMENT '关联患者ID',
-                              doctor_id INT NOT NULL COMMENT '关联医生ID',
-                              appointment_date DATETIME NOT NULL COMMENT '预约日期时间',
-                              appointment_status TINYINT DEFAULT 1 COMMENT '预约状态：1=待就诊，2=已就诊，3=已取消',
-                              create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                              FOREIGN KEY (patient_id) REFERENCES patients(patient_id) ON DELETE CASCADE
-);
+-- 患者表主键索引
+ALTER TABLE patients
+    ADD PRIMARY KEY (patient_id);
 
--- 创建病历表（修正外键约束语法）
-CREATE TABLE medical_records (
-                                 record_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '病历ID',
-                                 patient_id VARCHAR(50) NOT NULL COMMENT '关联患者ID',
-                                 doctor_id INT NOT NULL COMMENT '负责医生ID',
-                                 diagnosis_date DATE NOT NULL COMMENT '诊断日期',
-                                 chief_complaint TEXT COMMENT '主诉',
-                                 diagnosis TEXT COMMENT '诊断结果',
-                                 treatment_plan TEXT COMMENT '治疗方案',
-                                 create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                 FOREIGN KEY (patient_id) REFERENCES patients(patient_id) ON DELETE CASCADE
-);
-
--- 创建医生表
-CREATE TABLE doctors (
-                         doctor_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '医生ID',
-                         doctor_name VARCHAR(50) NOT NULL COMMENT '医生姓名',
-                         department VARCHAR(50) COMMENT '科室',
-                         title VARCHAR(50) COMMENT '职称',
-                         contact VARCHAR(20) COMMENT '联系方式',
-                         status TINYINT DEFAULT 1 COMMENT '状态：1=在职，0=离职'
-);
 
 -- 添加索引优化查询
 CREATE INDEX idx_patient_name ON patients(patient_name);
 CREATE INDEX idx_patient_id_card ON patients(patient_id_card);
-CREATE INDEX idx_appointment_date ON appointments(appointment_date);
-CREATE INDEX idx_diagnosis_date ON medical_records(diagnosis_date);
-CREATE INDEX idx_doctor_department ON doctors(department);
 
 DELIMITER $$
 
